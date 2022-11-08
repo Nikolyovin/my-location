@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { FC } from 'react'
 
-const main = () => {
+const main: FC = () => {
   return (
-    <View style={ styles.main }>
+    <View style={styles.main}>
       <Text>main</Text>
     </View>
   )
@@ -12,7 +12,7 @@ const main = () => {
 export default main
 
 const styles = StyleSheet.create({
-    main: {
-        
-    }
+  main: {
+    flex: 1
+  }
 })

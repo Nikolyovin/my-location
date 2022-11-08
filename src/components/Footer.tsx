@@ -3,37 +3,36 @@ import React, { useState } from 'react';
 import * as Location from 'expo-location';
 
 const Footer = () => {
-    const [location, setLocation] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
-    console.log('location:', location);
-    console.log('errorMsg:', errorMsg);
+    const [coordinates, setСoordinates] = useState<number[] | null>(null)
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    console.log('coordinates:', coordinates);
 
     const onPress = () => {
         (async () => {
-      
+
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 setErrorMsg('Permission to access location was denied');
                 return
             }
-      
+
             let location = await Location.getCurrentPositionAsync({});
-            setLocation(location)
+            const coordinates = [location.coords.latitude, location.coords.longitude]
+            setСoordinates(coordinates)
         })()
 
-        setLocation([])
     }
 
     let text = 'Waiting..'
-        if (errorMsg) {
-          text = errorMsg;
-        } else if (location) {
-          text = JSON.stringify(location)
-        }
+    if (errorMsg) {
+        text = errorMsg;
+    } else if (coordinates) {
+        text = JSON.stringify(coordinates)
+    }
 
     return (
-        <View  style = { styles.buttonWrap }>
-            <TouchableOpacity style={styles.buttonAdd} onPress = { onPress } >
+        <View style={styles.buttonWrap}>
+            <TouchableOpacity style={styles.buttonAdd} onPress={onPress} >
                 <Text style={styles.buttonAddText}>Получить координаты</Text>
             </TouchableOpacity>
         </View>
@@ -43,13 +42,11 @@ const Footer = () => {
 export default Footer
 
 const styles = StyleSheet.create({
-    footer: {
-        paddingBottom: 30
-    },
     buttonWrap: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        paddingHorizontal: 15,
+        paddingHorizontal: 25,
+        paddingBottom: 30
     },
     buttonAdd: {
         backgroundColor: '#00a8b8',

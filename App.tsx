@@ -6,8 +6,9 @@ import Main from './src/components/Main'
 export default function App() {
   return (
     <View style={styles.container}>
-      <Main/>
-      <Footer/>
+      <Text style={styles.title}>Список координат:</Text>
+      <Main />
+      <Footer />
       <StatusBar style="auto" />
     </View>
   );
@@ -20,4 +21,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  title: {
+    fontSize: 32,
+    paddingTop: 50
+  }
 });
