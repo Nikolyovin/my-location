@@ -49,12 +49,12 @@ const styles = StyleSheet.create({
         paddingBottom: 30
     },
     buttonAdd: {
-        backgroundColor: '#00a8b8',
+        backgroundColor: '#473cff',
         width: '100%',
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 20
+        borderRadius: 15
     },
     buttonAddText: {
         color: 'white',

@@ -1,4 +1,4 @@
-export interface ILokations{
+export interface ILokations {
     coordination: number[],
-    
+    description: string,
 }
