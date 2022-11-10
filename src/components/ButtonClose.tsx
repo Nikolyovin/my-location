@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import React from 'react'
 import iconClose from '../../assets/close.png'
 
-const ButtonClose = ({ }) => {
+const ButtonClose = () => {
     return (
         <View>
             <TouchableOpacity style={styles.buttonDelete}  >
