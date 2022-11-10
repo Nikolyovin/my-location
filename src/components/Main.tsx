@@ -6,7 +6,7 @@ const main: FC = () => {
   return (
     <View style={styles.main}>
       <Cards />
-      <Modal/>
+      {/* <Modal/> */}
     </View>
   )
 }

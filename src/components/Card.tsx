@@ -14,8 +14,8 @@ const Card: FC = () => {
                 <Text style={styles.description}>схрон рязанок</Text>
             </View>
             <View style={styles.button} >
-                    <ButtonClose  />
-                </View>
+                <ButtonClose />
+            </View>
         </View>
     )
 }
@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingVertical: 10,
+        paddingHorizontal: 30,
+        paddingVertical: 20,
         marginBottom: 10,
         width: '90%',
         borderRadius: 15,
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     },
     button: {
         position: 'absolute',
-        right: 15
+        right: 15,
+        top: 5
     }
 })
