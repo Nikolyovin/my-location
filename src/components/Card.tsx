@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
+import ButtonClose from './ButtonClose'
 
 const Card: FC = () => {
     return (
@@ -12,6 +13,9 @@ const Card: FC = () => {
                 {/* <Text style={styles.description}>Описание:</Text> */}
                 <Text style={styles.description}>схрон рязанок</Text>
             </View>
+            <View style={styles.button} >
+                    <ButtonClose  />
+                </View>
         </View>
     )
 }
@@ -42,5 +46,9 @@ const styles = StyleSheet.create({
     },
     description: {
 
+    },
+    button: {
+        position: 'absolute',
+        right: 15
     }
 })
