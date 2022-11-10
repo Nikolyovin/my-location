@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Modal, StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
 import Cards from './Cards'
 
@@ -6,6 +6,7 @@ const main: FC = () => {
   return (
     <View style={styles.main}>
       <Cards />
+      <Modal/>
     </View>
   )
 }
