@@ -24,7 +24,8 @@ export default Card
 
 const styles = StyleSheet.create({
     cardWrap: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#dafaf0',
+        opacity: 0.8,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',

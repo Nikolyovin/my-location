@@ -1,4 +1,4 @@
-import {Modal, StyleSheet, View, Text, TouchableOpacity, TextInput,} from 'react-native'
+import { Modal, StyleSheet, View, Text, TouchableOpacity, TextInput, } from 'react-native'
 import ButtonClose from './ButtonClose'
 import React, { FC, useState } from 'react'
 import * as Location from 'expo-location';
@@ -9,18 +9,18 @@ const ModalAdd: FC = () => {
   console.log('coordinates:', coordinates);
 
   const onButtonGetLocation = () => {
-      (async () => {
+    (async () => {
 
-          let { status } = await Location.requestForegroundPermissionsAsync();
-          if (status !== 'granted') {
-              setErrorMsg('Permission to access location was denied');
-              return
-          }
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return
+      }
 
-          let location = await Location.getCurrentPositionAsync({});
-          const coordinates = [location.coords.latitude, location.coords.longitude]
-          setСoordinates(coordinates)
-      })()
+      let location = await Location.getCurrentPositionAsync({});
+      const coordinates = [location.coords.latitude, location.coords.longitude]
+      setСoordinates(coordinates)
+    })()
 
   }
 
@@ -30,50 +30,54 @@ const ModalAdd: FC = () => {
 
   let text = 'Waiting..'
   if (errorMsg) {
-      text = errorMsg;
+    text = errorMsg;
   } else if (coordinates) {
-      text = JSON.stringify(coordinates)
+    text = JSON.stringify(coordinates)
   }
 
   return (
-    <View style = { styles.centeredView } >
+    <View style={styles.centeredView} >
       <Modal
         animationType="fade"
         transparent={true}
         visible={true}
-        // onShow={onShow}
+      // onShow={onShow}
       >
-        <View style = { styles.centeredView } >
+        <View style={styles.centeredView} >
           <View style={styles.modalView}>
-          <Text style = { styles.textInput }>Создание контрольной точки:</Text>
+            <Text style={styles.textInput}>Контрольная точка</Text>
             {/* <ModalError /> */}
             {
-              !coordinates &&  
-                <TouchableOpacity style = { styles.buttonGetLocation } onPress = { onButtonGetLocation }>
-                  <Text style = { styles.textButton }>Получить координаты</Text>
-                </TouchableOpacity>
+              !coordinates &&
+              <TouchableOpacity style={styles.buttonGetLocation} onPress={onButtonGetLocation}>
+                <Text style={styles.textButton}>Получить координаты</Text>
+              </TouchableOpacity>
             }
-            {  
+            {
               coordinates &&
               <>
-                <Text style = { styles.text }>Широта: { coordinates[ 0 ] }</Text>
-                <Text style = { styles.text }>Долгота: { coordinates[ 1 ] }</Text>
+                <Text style={styles.text}>Широта: {coordinates[0]}</Text>
+                <Text style={styles.text}>Долгота: {coordinates[1]}</Text>
               </>
             }
-            <Text style = { styles.textInput }>Описание:</Text>
-            <TextInput style = { styles.input }
+            {/* <Text style={styles.textInput}>Описание:</Text> */}
+            <TextInput style={styles.input}
               multiline={true}
-              numberOfLines={3}
+              numberOfLines={2}
+              placeholder='Описание'
             />
-            <TouchableOpacity style = { styles.buttonPoint } onPress = { onButtonPoint }>
-              <Text style = { styles.textButton }>Добавить</Text>
-            </TouchableOpacity>
-            <View style={styles.buttonClose} >
-              <ButtonClose  />
+            <View style={styles.footerModal}>
+              <TouchableOpacity style={styles.buttonAdd} onPress={onButtonPoint}>
+                <Text style={styles.textButton}>Добавить</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonCancel} >
+                <Text style={styles.textButton}>Отменить</Text>
+              </TouchableOpacity>
             </View>
+
           </View>
         </View>
-      </Modal>   
+      </Modal>
     </View>
   )
 }
@@ -83,20 +87,20 @@ export default ModalAdd
 const styles = StyleSheet.create({
   centeredView: {
     position: 'absolute',
-    width: '100%',
+    // width: '100%',
     justifyContent: "center",
     alignItems: "center",
     marginTop: '55%',
+    left: '10%',
     paddingHorizontal: 15,
   },
   modalView: {
     width: '100%',
-    height: 280,
+    height: 220,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
     paddingHorizontal: 15,
-    paddingVertical: 35,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -108,37 +112,49 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   buttonGetLocation: {
-    backgroundColor: "#473cff",
+    marginTop: 10,
+    backgroundColor: "#00c68f",
     padding: 9.5,
     borderRadius: 15,
-
   },
-  textButton:{
+  textButton: {
     color: 'white'
   },
   text: {
 
   },
   textInput: {
-    marginTop: 35,
+    margin: 10,
+    fontSize: 22
   },
-  input:{
+  input: {
     paddingHorizontal: 10,
-    width: '100%',
+    marginVertical: 10,
+    width: '70%',
     borderWidth: 2,
     borderColor: '#00a8b8',
     borderRadius: 10,
     justifyContent: 'center',
   },
-  buttonPoint:{
-    backgroundColor: "#473cff",
+  footerModal: {
+
+  },
+  buttonAdd: {
+    backgroundColor: "#00c68f",
+    marginTop: 10,
     padding: 9.5,
     borderRadius: 15,
   },
-  buttonClose: {
-    width: 20,
-    position: 'absolute',
-    right: 15,
-    top: 5
+  buttonCancel: {
+    borderColor: "#00c68f",
+    marginTop: 10,
+    padding: 9.5,
+    borderRadius: 15,
   },
+  // buttonClose: {
+  //   width: 20,
+  //   position: 'absolute',
+  //   right: 15,
+  //   top: 5
+  // },
 })

@@ -8,6 +8,12 @@ const Cards: FC = () => {
             <Card />
             <Card />
             <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+
+
         </View>
     )
 }
