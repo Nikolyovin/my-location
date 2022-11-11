@@ -1,8 +1,40 @@
-import { Modal, StyleSheet, View, AsyncStorage, Alert, Text, TouchableOpacity, TextInput } from 'react-native'
-import ButtonClose from '../../assets/close.png'
-import React, { FC } from 'react'
+import {Modal, StyleSheet, View, Text, TouchableOpacity, TextInput,} from 'react-native'
+import ButtonClose from './ButtonClose'
+import React, { FC, useState } from 'react'
+import * as Location from 'expo-location';
 
 const ModalAdd: FC = () => {
+  const [coordinates, setСoordinates] = useState<number[] | null>(null)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  console.log('coordinates:', coordinates);
+
+  const onButtonGetLocation = () => {
+      (async () => {
+
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+              setErrorMsg('Permission to access location was denied');
+              return
+          }
+
+          let location = await Location.getCurrentPositionAsync({});
+          const coordinates = [location.coords.latitude, location.coords.longitude]
+          setСoordinates(coordinates)
+      })()
+
+  }
+
+  const onButtonPoint = () => {
+
+  }
+
+  let text = 'Waiting..'
+  if (errorMsg) {
+      text = errorMsg;
+  } else if (coordinates) {
+      text = JSON.stringify(coordinates)
+  }
+
   return (
     <View style = { styles.centeredView } >
       <Modal
@@ -11,15 +43,37 @@ const ModalAdd: FC = () => {
         visible={true}
         // onShow={onShow}
       >
-        <View style={styles.modalView}>
+        <View style = { styles.centeredView } >
+          <View style={styles.modalView}>
+          <Text style = { styles.textInput }>Создание контрольной точки:</Text>
             {/* <ModalError /> */}
-            <Text> modal</Text>
-            
+            {
+              !coordinates &&  
+                <TouchableOpacity style = { styles.buttonGetLocation } onPress = { onButtonGetLocation }>
+                  <Text style = { styles.textButton }>Получить координаты</Text>
+                </TouchableOpacity>
+            }
+            {  
+              coordinates &&
+              <>
+                <Text style = { styles.text }>Широта: { coordinates[ 0 ] }</Text>
+                <Text style = { styles.text }>Долгота: { coordinates[ 1 ] }</Text>
+              </>
+            }
+            <Text style = { styles.textInput }>Описание:</Text>
+            <TextInput style = { styles.input }
+              multiline={true}
+              numberOfLines={3}
+            />
+            <TouchableOpacity style = { styles.buttonPoint } onPress = { onButtonPoint }>
+              <Text style = { styles.textButton }>Добавить</Text>
+            </TouchableOpacity>
             <View style={styles.buttonClose} >
               <ButtonClose  />
             </View>
-            </View>
-      </Modal>
+          </View>
+        </View>
+      </Modal>   
     </View>
   )
 }
@@ -32,7 +86,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: "center",
     alignItems: "center",
-    marginTop: '60%',
+    marginTop: '55%',
     paddingHorizontal: 15,
   },
   modalView: {
@@ -52,6 +106,34 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5
+  },
+  buttonGetLocation: {
+    backgroundColor: "#473cff",
+    padding: 9.5,
+    borderRadius: 15,
+
+  },
+  textButton:{
+    color: 'white'
+  },
+  text: {
+
+  },
+  textInput: {
+    marginTop: 35,
+  },
+  input:{
+    paddingHorizontal: 10,
+    width: '100%',
+    borderWidth: 2,
+    borderColor: '#00a8b8',
+    borderRadius: 10,
+    justifyContent: 'center',
+  },
+  buttonPoint:{
+    backgroundColor: "#473cff",
+    padding: 9.5,
+    borderRadius: 15,
   },
   buttonClose: {
     width: 20,

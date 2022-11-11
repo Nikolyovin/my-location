@@ -3,36 +3,36 @@ import React, { useState } from 'react';
 import * as Location from 'expo-location';
 
 const Footer = () => {
-    const [coordinates, setСoordinates] = useState<number[] | null>(null)
-    const [errorMsg, setErrorMsg] = useState<string | null>(null);
-    console.log('coordinates:', coordinates);
+    // const [coordinates, setСoordinates] = useState<number[] | null>(null)
+    // const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    // console.log('coordinates:', coordinates);
 
-    const onPress = () => {
-        (async () => {
+    // const onPress = () => {
+    //     (async () => {
 
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return
-            }
+    //         let { status } = await Location.requestForegroundPermissionsAsync();
+    //         if (status !== 'granted') {
+    //             setErrorMsg('Permission to access location was denied');
+    //             return
+    //         }
 
-            let location = await Location.getCurrentPositionAsync({});
-            const coordinates = [location.coords.latitude, location.coords.longitude]
-            setСoordinates(coordinates)
-        })()
+    //         let location = await Location.getCurrentPositionAsync({});
+    //         const coordinates = [location.coords.latitude, location.coords.longitude]
+    //         setСoordinates(coordinates)
+    //     })()
 
-    }
+    // }
 
-    let text = 'Waiting..'
-    if (errorMsg) {
-        text = errorMsg;
-    } else if (coordinates) {
-        text = JSON.stringify(coordinates)
-    }
+    // let text = 'Waiting..'
+    // if (errorMsg) {
+    //     text = errorMsg;
+    // } else if (coordinates) {
+    //     text = JSON.stringify(coordinates)
+    // }
 
     return (
         <View style={styles.buttonWrap}>
-            <TouchableOpacity style={styles.buttonAdd} onPress={onPress} >
+            <TouchableOpacity style={styles.buttonAdd} >
                 <Text style={styles.buttonAddText}>Получить координаты</Text>
             </TouchableOpacity>
         </View>
