@@ -1,38 +1,18 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react';
 import * as Location from 'expo-location';
+import { useActions } from '../hooks/action';
 
 const Footer = () => {
-    // const [coordinates, setСoordinates] = useState<number[] | null>(null)
-    // const [errorMsg, setErrorMsg] = useState<string | null>(null);
-    // console.log('coordinates:', coordinates);
+    const { iShowModal } = useActions()
 
-    // const onPress = () => {
-    //     (async () => {
-
-    //         let { status } = await Location.requestForegroundPermissionsAsync();
-    //         if (status !== 'granted') {
-    //             setErrorMsg('Permission to access location was denied');
-    //             return
-    //         }
-
-    //         let location = await Location.getCurrentPositionAsync({});
-    //         const coordinates = [location.coords.latitude, location.coords.longitude]
-    //         setСoordinates(coordinates)
-    //     })()
-
-    // }
-
-    // let text = 'Waiting..'
-    // if (errorMsg) {
-    //     text = errorMsg;
-    // } else if (coordinates) {
-    //     text = JSON.stringify(coordinates)
-    // }
+    const onShowModal = () => {
+        iShowModal(true)
+    }
 
     return (
         <View style={styles.buttonWrap}>
-            <TouchableOpacity style={styles.buttonAdd} >
+            <TouchableOpacity style={styles.buttonAdd} onPress={onShowModal}>
                 <Text style={styles.buttonAddText}>Получить координаты</Text>
             </TouchableOpacity>
         </View>

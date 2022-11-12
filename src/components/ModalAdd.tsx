@@ -1,16 +1,23 @@
-import { Modal, StyleSheet, View, Text, TouchableOpacity, TextInput, } from 'react-native'
+import { Modal, StyleSheet, View, Text, TouchableOpacity, TextInput, ActivityIndicator, } from 'react-native'
 import ButtonClose from './ButtonClose'
 import React, { FC, useState } from 'react'
 import * as Location from 'expo-location';
+import { useAppSelector } from '../hooks/redux';
+import { useActions } from '../hooks/action';
 
 const ModalAdd: FC = () => {
+  const { iSModal } = useAppSelector(state => state.app)
+  const { iShowModal } = useActions()
+  const [isLoading, setIsLoading] = useState(false)
+
+  // for getting locations 
   const [coordinates, setСoordinates] = useState<number[] | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  console.log('coordinates:', coordinates);
 
   const onButtonGetLocation = () => {
-    (async () => {
 
+    (async () => {
+      setIsLoading(true)
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
@@ -20,12 +27,8 @@ const ModalAdd: FC = () => {
       let location = await Location.getCurrentPositionAsync({});
       const coordinates = [location.coords.latitude, location.coords.longitude]
       setСoordinates(coordinates)
+      setIsLoading(false)
     })()
-
-  }
-
-  const onButtonPoint = () => {
-
   }
 
   let text = 'Waiting..'
@@ -35,12 +38,22 @@ const ModalAdd: FC = () => {
     text = JSON.stringify(coordinates)
   }
 
+  const onButtonPoint = () => {
+
+  }
+
+  const onPressClose = () => {
+    iShowModal(false)
+    setСoordinates(null)
+  }
+
+
   return (
     <View style={styles.centeredView} >
       <Modal
         animationType="fade"
         transparent={true}
-        visible={true}
+        visible={iSModal}
       // onShow={onShow}
       >
         <View style={styles.centeredView} >
@@ -50,7 +63,10 @@ const ModalAdd: FC = () => {
             {
               !coordinates &&
               <TouchableOpacity style={styles.buttonGetLocation} onPress={onButtonGetLocation}>
-                <Text style={styles.textButton}>Получить координаты</Text>
+                {!isLoading
+                  ? <Text style={styles.textButton}>Получить координаты</Text>
+                  : <ActivityIndicator size="small" color="white" />
+                }
               </TouchableOpacity>
             }
             {
@@ -62,7 +78,7 @@ const ModalAdd: FC = () => {
             }
             {/* <Text style={styles.textInput}>Описание:</Text> */}
             <TextInput style={styles.input}
-              multiline={true}
+              // multiline={true}
               numberOfLines={2}
               placeholder='Описание'
             />
@@ -70,8 +86,8 @@ const ModalAdd: FC = () => {
               <TouchableOpacity style={styles.buttonAdd} onPress={onButtonPoint}>
                 <Text style={styles.textButton}>Добавить</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonCancel} >
-                <Text style={styles.textButton}>Отменить</Text>
+              <TouchableOpacity style={styles.buttonClose} onPress={onPressClose}>
+                <Text style={styles.text}>Отменить</Text>
               </TouchableOpacity>
             </View>
 
@@ -96,7 +112,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: '100%',
-    height: 220,
+    maxHeight: 230,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -116,6 +132,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#00c68f",
     padding: 9.5,
     borderRadius: 15,
+    alignItems: 'center',
+    minWidth: 200,
   },
   textButton: {
     color: 'white'
@@ -130,23 +148,27 @@ const styles = StyleSheet.create({
   input: {
     paddingHorizontal: 10,
     marginVertical: 10,
-    width: '70%',
+    width: 200,
     borderWidth: 2,
-    borderColor: '#00a8b8',
+    borderColor: '#00c68f',
     borderRadius: 10,
     justifyContent: 'center',
   },
   footerModal: {
-
+    flexDirection: 'row',
+    paddingBottom: 20,
+    justifyContent: 'space-between'
   },
   buttonAdd: {
     backgroundColor: "#00c68f",
     marginTop: 10,
     padding: 9.5,
     borderRadius: 15,
+    marginRight: 5,
   },
-  buttonCancel: {
+  buttonClose: {
     borderColor: "#00c68f",
+    borderWidth: 2,
     marginTop: 10,
     padding: 9.5,
     borderRadius: 15,
