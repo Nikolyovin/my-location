@@ -7,7 +7,7 @@ interface IAppState {
 }
 
 const initialState: IAppState = {
-    locations: null,
+    locations: [],
     iSModal: false
 }
 
@@ -17,6 +17,13 @@ export const appSlice = createSlice({
     reducers: {
         iShowModal(state, action: PayloadAction<boolean>) {
             state.iSModal = action.payload
+        },
+        addLocation(state, action: PayloadAction<ILokations>) {
+            console.log('action', action);
+
+
+            state.locations?.push(action.payload)
+            console.log('state', state);
         }
     }
 })

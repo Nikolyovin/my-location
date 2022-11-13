@@ -7,8 +7,12 @@ import { useActions } from '../hooks/action';
 
 const ModalAdd: FC = () => {
   const { iSModal } = useAppSelector(state => state.app)
-  const { iShowModal } = useActions()
-  const [isLoading, setIsLoading] = useState(false)
+  const { iShowModal, addLocation } = useActions()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [description, onChangeDescription] = useState<string>('')
+  console.log('description', description);
+  const { locations } = useAppSelector(state => state.app)
+  console.log('locations', locations);
 
   // for getting locations 
   const [coordinates, setСoordinates] = useState<number[] | null>(null)
@@ -38,8 +42,10 @@ const ModalAdd: FC = () => {
     text = JSON.stringify(coordinates)
   }
 
-  const onButtonPoint = () => {
-
+  const onPressAdd = () => {
+    addLocation({ coordinates, description })
+    iShowModal(false)
+    setСoordinates(null)
   }
 
   const onPressClose = () => {
@@ -78,12 +84,12 @@ const ModalAdd: FC = () => {
             }
             {/* <Text style={styles.textInput}>Описание:</Text> */}
             <TextInput style={styles.input}
-              // multiline={true}
+              onChangeText={onChangeDescription}
               numberOfLines={2}
               placeholder='Описание'
             />
             <View style={styles.footerModal}>
-              <TouchableOpacity style={styles.buttonAdd} onPress={onButtonPoint}>
+              <TouchableOpacity style={styles.buttonAdd} onPress={onPressAdd}>
                 <Text style={styles.textButton}>Добавить</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonClose} onPress={onPressClose}>
