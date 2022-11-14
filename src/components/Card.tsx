@@ -2,16 +2,16 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
 import ButtonClose from './ButtonClose'
 
-const Card: FC = () => {
+const Card: FC = ( { coordinates, description }) => {
     return (
         <View style={styles.cardWrap}>
             <View style={styles.rightWrap}>
-                <Text style={styles.textRight}>Ширина: 56.687697</Text>
-                <Text style={styles.textRight}>Долгота: 56.687697</Text>
+                <Text style={styles.textRight}>Ширина: { coordinates[0] }</Text>
+                <Text style={styles.textRight}>Долгота: { coordinates[1] }</Text>
             </View>
             <View style={styles.leftWrap}>
                 {/* <Text style={styles.description}>Описание:</Text> */}
-                <Text style={styles.description}>схрон рязанок</Text>
+                <Text style={styles.description}>{ description }</Text>
             </View>
             <View style={styles.button} >
                 <ButtonClose />

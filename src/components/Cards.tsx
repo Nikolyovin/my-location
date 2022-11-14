@@ -1,17 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
 import Card from './Card'
+import { useAppSelector } from '../hooks/redux'
 
 const Cards: FC = () => {
+    const { locations } = useAppSelector(state => state.app )
+
     return (
         <View style={styles.cardsWrap}>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            <FlatList 
+                style={styles.cardsList}
+                keyExtractor={item => item.description}
+                data={locations}
+                renderItem={({ item }) =>
+                    <Card
+                        coordinates = { item.coordinates }
+                        description = { item.description }
+                    />
+                }
+            />
 
 
         </View>
@@ -25,5 +32,8 @@ const styles = StyleSheet.create({
         paddingTop: 15,
         width: '100%',
         alignItems: 'center'
+    },
+    cardsList: {
+
     }
 })
