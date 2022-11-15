@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ILokations } from "../models/models"
 
 interface IAppState {
-    locations: Array<ILokations> | null
+    locations: Array<ILokations>
     iSModal: boolean
 }
 

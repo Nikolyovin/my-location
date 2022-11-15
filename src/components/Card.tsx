@@ -2,7 +2,12 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
 import ButtonClose from './ButtonClose'
 
-const Card: FC = ( { coordinates, description }) => {
+interface IProps{
+    coordinates: number[]
+    description: string
+}
+
+const Card: FC<IProps> = ( { coordinates, description }) => {
     return (
         <View style={styles.cardWrap}>
             <View style={styles.rightWrap}>
