@@ -1,27 +1,61 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
 import ButtonClose from './ButtonClose'
+import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler'
+import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { FontAwesome5 } from '@expo/vector-icons'
 
 interface IProps{
     coordinates: number[]
     description: string
 }
 
-const Card: FC<IProps> = ( { coordinates, description }) => {
+const Card: FC<IProps> = ({ coordinates, description }) => {
+    //need for swipe
+    const {width: SCREEN_WIDTH} = Dimensions.get('window')
+    const TRANSATE_X_THRESHOLD = SCREEN_WIDTH* .3
+    const translatesX = useSharedValue(0)
+
+    const panGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
+        onActive: (event) => {
+            translatesX.value = event.translationX                 //сколько прокручивать будем
+        },
+        onEnd: () => {
+            translatesX.value = withTiming(0)                                 //чтобы после окончания свайпа, объект возвращался обратно withTiming нужен для анимации
+        }
+    })
+
+    const rStyle = useAnimatedStyle(() => ({
+        transform: [{
+            translateX: translatesX.value
+        }]
+    }))
+
     return (
-        <View style={styles.cardWrap}>
-            <View style={styles.rightWrap}>
-                <Text style={styles.textRight}>Ширина: { coordinates[0] }</Text>
-                <Text style={styles.textRight}>Долгота: { coordinates[1] }</Text>
+        <>
+            <PanGestureHandler onGestureEvent = { panGesture } >                      {/*need for swipe  */}
+                <Animated.View style={[ styles.cardWrap, rStyle ]}>                               {/* need for swipe */}
+                    <View style={styles.rightWrap}>
+                        <Text style={styles.textRight}>Ширина: { coordinates[0] }</Text>
+                        <Text style={styles.textRight}>Долгота: { coordinates[1] }</Text>
+                    </View>
+                    <View style={styles.leftWrap}>
+                        {/* <Text style={styles.description}>Описание:</Text> */}
+                        <Text style={styles.description}>{ description }</Text>
+                    </View>
+                    <View style={styles.button} >
+                        <ButtonClose />
+                    </View>
+                </Animated.View>
+            </PanGestureHandler>
+            <View style = { styles.iconContainer}>
+                <FontAwesome5 
+                    name = { 'trash-alt' } 
+                    size = { 70*0.4 }
+                    color = { 'red' }
+                />
             </View>
-            <View style={styles.leftWrap}>
-                {/* <Text style={styles.description}>Описание:</Text> */}
-                <Text style={styles.description}>{ description }</Text>
-            </View>
-            <View style={styles.button} >
-                <ButtonClose />
-            </View>
-        </View>
+        </>
     )
 }
 
@@ -57,5 +91,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 15,
         top: 5
+    },
+    iconContainer: {
+        height: 70,
+        width: 70,
+        position: 'absolute',
+        right: '10%',
+        alignItems: 'center'
     }
 })
