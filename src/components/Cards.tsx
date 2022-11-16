@@ -4,19 +4,21 @@ import Card from './Card'
 import { useAppSelector } from '../hooks/redux'
 
 const Cards: FC = () => {
-    const { locations } = useAppSelector(state => state.app )
+    const { locations } = useAppSelector(state => state.app)
+    console.log('locations', locations);
 
     return (
         <View style={styles.cardsWrap}>
-            <FlatList 
+            <FlatList
                 style={styles.cardsList}
                 keyExtractor={item => item.description}
                 data={locations}
                 renderItem={({ item }) =>
                     <Card
-                        coordinates = { item.coordinates }
-                        description = { item.description }
+                        coordinates={item.coordinates}
+                        description={item.description}
                     />
+                    // <Text> ntrgggd</Text>
                 }
             />
 
