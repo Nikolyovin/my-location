@@ -13,26 +13,58 @@ interface IProps{
 const Card: FC<IProps> = ({ coordinates, description }) => {
     //need for swipe
     const {width: SCREEN_WIDTH} = Dimensions.get('window')
-    const TRANSATE_X_THRESHOLD = SCREEN_WIDTH* .3
+    const TRANSATE_X_THRESHOLD = -SCREEN_WIDTH* .3
     const translatesX = useSharedValue(0)
+    const itemHeight = useSharedValue(70)
+    const marginVertical = useSharedValue(10) //чтобы margin убирался при удалении
+    const opacity = useSharedValue(1)  //чтобы после удаление иконки удалялись
 
     const panGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
         onActive: (event) => {
             translatesX.value = event.translationX                 //сколько прокручивать будем
         },
         onEnd: () => {
-            translatesX.value = withTiming(0)                                 //чтобы после окончания свайпа, объект возвращался обратно withTiming нужен для анимации
+            const shouldBeDismissed = translatesX.value < TRANSATE_X_THRESHOLD
+            if (shouldBeDismissed ) {
+                translatesX.value = withTiming(-SCREEN_WIDTH) // действие будет отмененно
+                itemHeight.value = withTiming(0)
+                marginVertical.value = withTiming(0) 
+                opacity.value = withTiming(0) 
+            } else {
+                translatesX.value = withTiming(0)                                 //чтобы после окончания свайпа, объект возвращался обратно withTiming нужен для анимации
+            } 
         }
     })
 
+    //it additional style for animation 
     const rStyle = useAnimatedStyle(() => ({
         transform: [{
             translateX: translatesX.value
         }]
     }))
 
+    const rIconContainerStyle = useAnimatedStyle(() => {                //чтобы иконка появлялась плавно при свайпе
+        const opacity = withTiming(translatesX.value < TRANSATE_X_THRESHOLD ? 1 : 0)
+        return { opacity }
+    })
+
+    const rTaskConteinerStyle = useAnimatedStyle(() => {           //чтобы исчезала !! но это не точно
+        return {
+            height: itemHeight.value,
+            marginVertical: marginVertical.value,
+            opacity: opacity.value
+        }
+    })
+
     return (
-        <>
+        <Animated.View style = {[ styles.cardContainer, rTaskConteinerStyle ]}>
+            <Animated.View style = { [ styles.iconContainer, rIconContainerStyle ] }>           // Animated чтобы иконка появлялась плавно при свайпе
+                <FontAwesome5 
+                    name = { 'trash-alt' } 
+                    size = { 70*0.4 }
+                    color = { 'red' }
+                />
+            </Animated.View>
             <PanGestureHandler onGestureEvent = { panGesture } >                      {/*need for swipe  */}
                 <Animated.View style={[ styles.cardWrap, rStyle ]}>                               {/* need for swipe */}
                     <View style={styles.rightWrap}>
@@ -48,20 +80,18 @@ const Card: FC<IProps> = ({ coordinates, description }) => {
                     </View>
                 </Animated.View>
             </PanGestureHandler>
-            <View style = { styles.iconContainer}>
-                <FontAwesome5 
-                    name = { 'trash-alt' } 
-                    size = { 70*0.4 }
-                    color = { 'red' }
-                />
-            </View>
-        </>
+            
+        </Animated.View>
     )
 }
 
 export default Card
 
 const styles = StyleSheet.create({
+    cardContainer:{
+        width: '100%',
+        alignItems: 'center',
+    },
     cardWrap: {
         backgroundColor: '#dafaf0',
         opacity: 0.8,
