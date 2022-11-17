@@ -7,7 +7,19 @@ interface IAppState {
 }
 
 const initialState: IAppState = {
-    locations: [],
+    locations: [
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+        { coordinates: [500000, 390000], description: 'tetwtwe' },
+
+    ],
     iSModal: false
 }
 

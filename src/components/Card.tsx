@@ -1,50 +1,50 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
 import ButtonClose from './ButtonClose'
-import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler'
+import { GestureHandlerRootView, PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler'
 import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { FontAwesome5 } from '@expo/vector-icons'
 
-interface IProps{
+interface IProps {
     coordinates: number[]
     description: string
 }
 
 const Card: FC<IProps> = ({ coordinates, description }) => {
     //need for swipe
-    const {width: SCREEN_WIDTH} = Dimensions.get('window')
-    const TRANSATE_X_THRESHOLD = -SCREEN_WIDTH* .3
-    const translatesX = useSharedValue(0)
+    const { width: SCREEN_WIDTH } = Dimensions.get('window')
+    const TRANSATE_X_THRESHOLD = -SCREEN_WIDTH * .3
+    const translateX = useSharedValue(0)
     const itemHeight = useSharedValue(70)
     const marginVertical = useSharedValue(10) //чтобы margin убирался при удалении
     const opacity = useSharedValue(1)  //чтобы после удаление иконки удалялись
 
     const panGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
         onActive: (event) => {
-            translatesX.value = event.translationX                 //сколько прокручивать будем
+            translateX.value = event.translationX                 //сколько прокручивать будем
         },
         onEnd: () => {
-            const shouldBeDismissed = translatesX.value < TRANSATE_X_THRESHOLD
-            if (shouldBeDismissed ) {
-                translatesX.value = withTiming(-SCREEN_WIDTH) // действие будет отмененно
+            const shouldBeDismissed = translateX.value < TRANSATE_X_THRESHOLD
+            if (shouldBeDismissed) {
+                translateX.value = withTiming(-SCREEN_WIDTH) // действие будет отмененно
                 itemHeight.value = withTiming(0)
-                marginVertical.value = withTiming(0) 
-                opacity.value = withTiming(0) 
+                marginVertical.value = withTiming(0)
+                opacity.value = withTiming(0)
             } else {
-                translatesX.value = withTiming(0)                                 //чтобы после окончания свайпа, объект возвращался обратно withTiming нужен для анимации
-            } 
+                translateX.value = withTiming(0)                                 //чтобы после окончания свайпа, объект возвращался обратно withTiming нужен для анимации
+            }
         }
     })
 
     //it additional style for animation 
     const rStyle = useAnimatedStyle(() => ({
         transform: [{
-            translateX: translatesX.value
+            translateX: translateX.value
         }]
     }))
 
     const rIconContainerStyle = useAnimatedStyle(() => {                //чтобы иконка появлялась плавно при свайпе
-        const opacity = withTiming(translatesX.value < TRANSATE_X_THRESHOLD ? 1 : 0)
+        const opacity = withTiming(translateX.value < TRANSATE_X_THRESHOLD ? 1 : 0)
         return { opacity }
     })
 
@@ -57,39 +57,41 @@ const Card: FC<IProps> = ({ coordinates, description }) => {
     })
 
     return (
-        <Animated.View style = {[ styles.cardContainer, rTaskConteinerStyle ]}>
-            <Animated.View style = { [ styles.iconContainer, rIconContainerStyle ] }>           // Animated чтобы иконка появлялась плавно при свайпе
-                <FontAwesome5 
-                    name = { 'trash-alt' } 
-                    size = { 70*0.4 }
-                    color = { 'red' }
-                />
-            </Animated.View>
-            <PanGestureHandler onGestureEvent = { panGesture } >                      {/*need for swipe  */}
-                <Animated.View style={[ styles.cardWrap, rStyle ]}>                               {/* need for swipe */}
-                    <View style={styles.rightWrap}>
-                        <Text style={styles.textRight}>Ширина: { coordinates[0] }</Text>
-                        <Text style={styles.textRight}>Долгота: { coordinates[1] }</Text>
-                    </View>
-                    <View style={styles.leftWrap}>
-                        {/* <Text style={styles.description}>Описание:</Text> */}
-                        <Text style={styles.description}>{ description }</Text>
-                    </View>
-                    <View style={styles.button} >
-                        <ButtonClose />
-                    </View>
+        <GestureHandlerRootView>
+            <Animated.View style={[styles.cardContainer, rTaskConteinerStyle]}>
+                <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
+                    <FontAwesome5
+                        name={'trash-alt'}
+                        size={70 * 0.4}
+                        color={'red'}
+                    />
                 </Animated.View>
-            </PanGestureHandler>
-            
-        </Animated.View>
+                <PanGestureHandler onGestureEvent={panGesture} >
+                    <Animated.View style={[styles.cardWrap, rStyle]}>
+                        <View style={styles.rightWrap}>
+                            <Text style={styles.textRight}>Ширина: {coordinates[0]}</Text>
+                            <Text style={styles.textRight}>Долгота: {coordinates[1]}</Text>
+                        </View>
+                        <View style={styles.leftWrap}>
+
+                            <Text style={styles.description}>{description}</Text>
+                        </View>
+                        <View style={styles.button} >
+                            <ButtonClose />
+                        </View>
+                    </Animated.View>
+                </PanGestureHandler>
+
+            </Animated.View>
+        </GestureHandlerRootView>
     )
 }
 
 export default Card
 
 const styles = StyleSheet.create({
-    cardContainer:{
-        width: '100%',
+    cardContainer: {
+        // width: '0%',
         alignItems: 'center',
     },
     cardWrap: {
