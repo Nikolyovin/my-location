@@ -1,16 +1,17 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
 import ButtonClose from './ButtonClose'
-import { GestureHandlerRootView, PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler'
+import { GestureHandlerRootView, PanGestureHandler, PanGestureHandlerGestureEvent, PanGestureHandlerProps } from 'react-native-gesture-handler'
 import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { FontAwesome5 } from '@expo/vector-icons'
+import ButtonSendEmail from './ButtonSendEmail'
 
-interface IProps {
+interface IProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'>{       //наследуем в типы simultaneousHandlers для того чтобы убрать конфликт со скроллом
     coordinates: number[]
     description: string
 }
 
-const Card: FC<IProps> = ({ coordinates, description }) => {
+const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers }) => {
     //need for swipe
     const { width: SCREEN_WIDTH } = Dimensions.get('window')
     const TRANSATE_X_THRESHOLD = -SCREEN_WIDTH * .3
@@ -66,8 +67,9 @@ const Card: FC<IProps> = ({ coordinates, description }) => {
                         color={'red'}
                     />
                 </Animated.View>
-                <PanGestureHandler onGestureEvent={panGesture} >
+                <PanGestureHandler simultaneousHandlers={simultaneousHandlers} onGestureEvent={panGesture} >
                     <Animated.View style={[styles.cardWrap, rStyle]}>
+                        <ButtonSendEmail/>
                         <View style={styles.rightWrap}>
                             <Text style={styles.textRight}>Ширина: {coordinates[0]}</Text>
                             <Text style={styles.textRight}>Долгота: {coordinates[1]}</Text>
@@ -76,9 +78,9 @@ const Card: FC<IProps> = ({ coordinates, description }) => {
 
                             <Text style={styles.description}>{description}</Text>
                         </View>
-                        <View style={styles.button} >
+                        {/* <View style={styles.button} >
                             <ButtonClose />
-                        </View>
+                        </View> */}
                     </Animated.View>
                 </PanGestureHandler>
 
@@ -119,11 +121,11 @@ const styles = StyleSheet.create({
     description: {
 
     },
-    button: {
-        position: 'absolute',
-        right: 15,
-        top: 5
-    },
+    // button: {
+    //     position: 'absolute',
+    //     right: 15,
+    //     top: 5
+    // },
     iconContainer: {
         height: 70,
         width: 70,
