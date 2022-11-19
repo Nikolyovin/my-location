@@ -20,16 +20,17 @@ const Cards: FC = () => {
                     <Card
                         coordinates={item.coordinates}
                         description={item.description}
+                        simultaneousHandlers={scrollRef}
                     />
 
                 }
             /> */}
-            { locations.map(item => (
-                <Card 
-                    simultaneousHandlers={scrollRef} 
-                    coordinates={item.coordinates} 
-                    description={item.description} 
-                    />) 
+            {locations.map(item => (
+                <Card
+                    simultaneousHandlers={scrollRef}
+                    coordinates={item.coordinates}
+                    description={item.description}
+                />)
             )}
 
 
@@ -41,6 +42,7 @@ export default Cards
 
 const styles = StyleSheet.create({
     cardsWrap: {
+        flex: 1,
         paddingTop: 15,
         width: '100%',
         // alignItems: 'center'

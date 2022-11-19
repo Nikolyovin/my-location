@@ -6,7 +6,7 @@ import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, 
 import { FontAwesome5 } from '@expo/vector-icons'
 import ButtonSendEmail from './ButtonSendEmail'
 
-interface IProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'>{       //наследуем в типы simultaneousHandlers для того чтобы убрать конфликт со скроллом
+interface IProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {       //наследуем в типы simultaneousHandlers для того чтобы убрать конфликт со скроллом
     coordinates: number[]
     description: string
 }
@@ -58,18 +58,26 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers }) =>
     })
 
     return (
-        <GestureHandlerRootView>
+        <GestureHandlerRootView
+
+        >
             <Animated.View style={[styles.cardContainer, rTaskConteinerStyle]}>
                 <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
                     <FontAwesome5
                         name={'trash-alt'}
-                        size={70 * 0.4}
+                        size={40}
                         color={'red'}
+
                     />
                 </Animated.View>
-                <PanGestureHandler simultaneousHandlers={simultaneousHandlers} onGestureEvent={panGesture} >
+                <PanGestureHandler
+                    simultaneousHandlers={simultaneousHandlers}
+                    onGestureEvent={panGesture}
+                    failOffsetY={[-5, 5]}
+                    activeOffsetX={[-5, 5]}
+                >
                     <Animated.View style={[styles.cardWrap, rStyle]}>
-                        <ButtonSendEmail/>
+                        <ButtonSendEmail />
                         <View style={styles.rightWrap}>
                             <Text style={styles.textRight}>Ширина: {coordinates[0]}</Text>
                             <Text style={styles.textRight}>Долгота: {coordinates[1]}</Text>
@@ -127,8 +135,9 @@ const styles = StyleSheet.create({
     //     top: 5
     // },
     iconContainer: {
-        height: 70,
+        height: '100%',
         width: 70,
+        top: '25%',
         position: 'absolute',
         right: '10%',
         alignItems: 'center'
