@@ -12,19 +12,7 @@ const Cards: FC = () => {
 
     return (
         <ScrollView ref={scrollRef} style={styles.cardsWrap}>
-            {/* <FlatList
-                style={styles.cardsList}
-                keyExtractor={item => item.description}
-                data={locations}
-                renderItem={({ item }) =>
-                    <Card
-                        coordinates={item.coordinates}
-                        description={item.description}
-                        simultaneousHandlers={scrollRef}
-                    />
 
-                }
-            /> */}
             {locations.map(item => (
                 <Card
                     key={item.id}
