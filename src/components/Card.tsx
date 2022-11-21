@@ -5,13 +5,18 @@ import { GestureHandlerRootView, PanGestureHandler, PanGestureHandlerGestureEven
 import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { FontAwesome5 } from '@expo/vector-icons'
 import ButtonSendEmail from './ButtonSendEmail'
+import { useAppSelector } from '../hooks/redux'
+import { useActions } from '../hooks/action'
 
 interface IProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {       //наследуем в типы simultaneousHandlers для того чтобы убрать конфликт со скроллом
     coordinates: number[]
     description: string
+    id: string
 }
 
-const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers }) => {
+const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }) => {
+    const { removeLocation } = useActions()
+
     //need for swipe
     const { width: SCREEN_WIDTH } = Dimensions.get('window')
     const TRANSATE_X_THRESHOLD = -SCREEN_WIDTH * .3
@@ -31,6 +36,7 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers }) =>
                 itemHeight.value = withTiming(0)
                 marginVertical.value = withTiming(0)
                 opacity.value = withTiming(0)
+                removeLocation(id)
             } else {
                 translateX.value = withTiming(0)                                 //чтобы после окончания свайпа, объект возвращался обратно withTiming нужен для анимации
             }
@@ -58,16 +64,13 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers }) =>
     })
 
     return (
-        <GestureHandlerRootView
-
-        >
+        <GestureHandlerRootView>
             <Animated.View style={[styles.cardContainer, rTaskConteinerStyle]}>
                 <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
                     <FontAwesome5
                         name={'trash-alt'}
                         size={40}
                         color={'red'}
-
                     />
                 </Animated.View>
                 <PanGestureHandler
@@ -77,21 +80,16 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers }) =>
                     activeOffsetX={[-5, 5]}
                 >
                     <Animated.View style={[styles.cardWrap, rStyle]}>
-                        <ButtonSendEmail />
+                        <ButtonSendEmail id = { id } removeLocation ={removeLocation}/>
                         <View style={styles.rightWrap}>
                             <Text style={styles.textRight}>Ширина: {coordinates[0]}</Text>
                             <Text style={styles.textRight}>Долгота: {coordinates[1]}</Text>
                         </View>
                         <View style={styles.leftWrap}>
-
                             <Text style={styles.description}>{description}</Text>
                         </View>
-                        {/* <View style={styles.button} >
-                            <ButtonClose />
-                        </View> */}
                     </Animated.View>
                 </PanGestureHandler>
-
             </Animated.View>
         </GestureHandlerRootView>
     )

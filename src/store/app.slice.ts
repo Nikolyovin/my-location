@@ -1,10 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit"
 import { ILokations } from "../models/models"
 
 interface IAppState {
     locations: Array<ILokations>
     iSModal: boolean
-
 }
 
 const initialState: IAppState = {
@@ -16,10 +15,11 @@ const initialState: IAppState = {
         { coordinates: [500000, 390000], description: 'tetwtwe4', id: '5' },
         { coordinates: [500000, 390000], description: 'tetwtwe5', id: '6' },
         { coordinates: [500000, 390000], description: 'tetwtwe6', id: '7' },
-
     ],
     iSModal: false
 }
+
+
 
 export const appSlice = createSlice({
     name: 'app',
@@ -29,13 +29,15 @@ export const appSlice = createSlice({
             state.iSModal = action.payload
         },
         addLocation(state, action: PayloadAction<ILokations>) {
-
             state.locations?.push(action.payload)
-            console.log('state', state);
+            console.log('state1', state)
         },
-        removeLocation(state, action: PayloadAction<ILokations>) {
-            state.locations?.filter((arrow) => arrow.id !== action.payload)
-            console.log('state', state);
+        removeLocation(state, action: PayloadAction<string>) {
+            state.locations = state.locations?.filter((item) => {
+                console.log('item.id',item.id)
+                console.log('action.payload', action.payload)
+               return item.id !== action.payload})
+                console.log(current(state))    
         },
     }
 })

@@ -27,6 +27,8 @@ const Cards: FC = () => {
             /> */}
             {locations.map(item => (
                 <Card
+                    key={item.id}
+                    id={item.id}
                     simultaneousHandlers={scrollRef}
                     coordinates={item.coordinates}
                     description={item.description}

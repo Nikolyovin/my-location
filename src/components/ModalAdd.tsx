@@ -1,5 +1,4 @@
 import { Modal, StyleSheet, View, Text, TouchableOpacity, TextInput, ActivityIndicator, } from 'react-native'
-import ButtonClose from './ButtonClose'
 import React, { FC, useState } from 'react'
 import * as Location from 'expo-location';
 import { useAppSelector } from '../hooks/redux';
@@ -42,15 +41,20 @@ const ModalAdd: FC = () => {
     text = JSON.stringify(coordinates)
   }
 
-  const onPressAdd = () => {
-    addLocation({ coordinates, description })
+  const cleanModal = () => {
     iShowModal(false)
     setСoordinates(null)
+    onChangeDescription('')
+  }
+
+  const onPressAdd = () => {
+    const id = Date.now().toString()
+    addLocation({ coordinates, description, id })
+    cleanModal()
   }
 
   const onPressClose = () => {
-    iShowModal(false)
-    setСoordinates(null)
+    cleanModal()
   }
 
 

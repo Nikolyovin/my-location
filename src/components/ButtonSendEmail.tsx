@@ -2,9 +2,18 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { FC, useRef } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const ButtonSendEmail: FC = () => {
+interface IProps {       
+  
+}
+
+const ButtonSendEmail: FC<IProps> = () => {
+
+  const click = () => { 
+    
+   }
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress = { }>
       <Text>EM</Text>
     </TouchableOpacity>
   )
