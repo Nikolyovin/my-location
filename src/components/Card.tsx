@@ -1,11 +1,9 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
-import ButtonClose from './ButtonClose'
 import { GestureHandlerRootView, PanGestureHandler, PanGestureHandlerGestureEvent, PanGestureHandlerProps } from 'react-native-gesture-handler'
 import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { FontAwesome5 } from '@expo/vector-icons'
 import ButtonSendEmail from './ButtonSendEmail'
-import { useAppSelector } from '../hooks/redux'
 import { useActions } from '../hooks/action'
 
 interface IProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {       //наследуем в типы simultaneousHandlers для того чтобы убрать конфликт со скроллом
@@ -68,19 +66,19 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }
             <Animated.View style={[styles.cardContainer, rTaskConteinerStyle]}>
                 <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
                     <FontAwesome5
-                        name={'trash-alt'}
-                        size={40}
-                        color={'red'}
+                        name = { 'trash-alt' }
+                        size = { 40 }
+                        color = { 'red' }
                     />
                 </Animated.View>
                 <PanGestureHandler
-                    simultaneousHandlers={simultaneousHandlers}
-                    onGestureEvent={panGesture}
-                    failOffsetY={[-5, 5]}
-                    activeOffsetX={[-5, 5]}
+                    simultaneousHandlers = { simultaneousHandlers }
+                    onGestureEvent = { panGesture }
+                    failOffsetY = { [ -5, 5 ] }
+                    activeOffsetX = { [ -5, 5 ] }
                 >
-                    <Animated.View style={[styles.cardWrap, rStyle]}>
-                        <ButtonSendEmail id = { id } removeLocation ={removeLocation}/>
+                    <Animated.View style = { [ styles.cardWrap, rStyle ] }>
+                        <ButtonSendEmail coordinates = { coordinates } description = { description }/>
                         <View style={styles.rightWrap}>
                             <Text style={styles.textRight}>Ширина: {coordinates[0]}</Text>
                             <Text style={styles.textRight}>Долгота: {coordinates[1]}</Text>
@@ -99,7 +97,6 @@ export default Card
 
 const styles = StyleSheet.create({
     cardContainer: {
-        // width: '0%',
         alignItems: 'center',
     },
     cardWrap: {
@@ -127,11 +124,6 @@ const styles = StyleSheet.create({
     description: {
 
     },
-    // button: {
-    //     position: 'absolute',
-    //     right: 15,
-    //     top: 5
-    // },
     iconContainer: {
         height: '100%',
         width: 70,
