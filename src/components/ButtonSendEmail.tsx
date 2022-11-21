@@ -10,11 +10,10 @@ interface IProps {
   description: string
 }
 
-
 const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
   const form = useRef()
 
-  var templateParams = {
+  const templateParams = {
     coordinates: `Широта: ${coordinates[0]} Долгота: ${coordinates[1]}`,
     user_email: 'pulya0763@gmail.com',
     description: description
@@ -39,9 +38,9 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
     <>
       <TouchableOpacity onPress={sendEmail}>
         <FontAwesome5
-          name={'envelope'}
+          name={'envelope-square'}
           size={40}
-          color={'black'}
+          color={'#00c68f'}
         />
       </TouchableOpacity>
       <View>

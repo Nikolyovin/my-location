@@ -66,21 +66,21 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }
             <Animated.View style={[styles.cardContainer, rTaskConteinerStyle]}>
                 <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
                     <FontAwesome5
-                        name = { 'trash-alt' }
-                        size = { 40 }
-                        color = { 'red' }
+                        name={'trash-alt'}
+                        size={40}
+                        color={'red'}
                     />
                 </Animated.View>
                 <PanGestureHandler
-                    simultaneousHandlers = { simultaneousHandlers }
-                    onGestureEvent = { panGesture }
-                    failOffsetY = { [ -5, 5 ] }
-                    activeOffsetX = { [ -5, 5 ] }
+                    simultaneousHandlers={simultaneousHandlers}
+                    onGestureEvent={panGesture}
+                    failOffsetY={[-5, 5]}
+                    activeOffsetX={[-5, 5]}
                 >
-                    <Animated.View style = { [ styles.cardWrap, rStyle ] }>
-                        <ButtonSendEmail coordinates = { coordinates } description = { description }/>
+                    <Animated.View style={[styles.cardWrap, rStyle]}>
+                        <ButtonSendEmail coordinates={coordinates} description={description} />
                         <View style={styles.rightWrap}>
-                            <Text style={styles.textRight}>Ширина: {coordinates[0]}</Text>
+                            <Text style={styles.textRight}>Широта: {coordinates[0]}</Text>
                             <Text style={styles.textRight}>Долгота: {coordinates[1]}</Text>
                         </View>
                         <View style={styles.leftWrap}>
@@ -116,13 +116,14 @@ const styles = StyleSheet.create({
         // flex: 1,
     },
     textRight: {
-
+        // fontFamily: 'italic'
+        fontSize: 16
     },
     leftWrap: {
 
     },
     description: {
-
+        fontSize: 16,
     },
     iconContainer: {
         height: '100%',
