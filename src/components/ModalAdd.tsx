@@ -9,9 +9,7 @@ const ModalAdd: FC = () => {
   const { iShowModal, addLocation } = useActions()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [description, onChangeDescription] = useState<string>('')
-  console.log('description', description);
-  const { locations } = useAppSelector(state => state.app)
-  console.log('locations', locations);
+  const [isEmptyFields, setIsEmptyFields] = useState<boolean>(false)
 
   // for getting locations 
   const [coordinates, setСoordinates] = useState<number[] | null>(null)
@@ -49,7 +47,9 @@ const ModalAdd: FC = () => {
 
   const onPressAdd = () => {
     const id = Date.now().toString()
-    addLocation({ coordinates, description, id })
+    coordinates && description 
+      ? addLocation({ coordinates, description, id })
+      : setIsEmptyFields(true)
     cleanModal()
   }
 
@@ -69,7 +69,7 @@ const ModalAdd: FC = () => {
         <View style={styles.centeredView} >
           <View style={styles.modalView}>
             <Text style={styles.textInput}>Контрольная точка</Text>
-            {/* <ModalError /> */}
+           { isEmptyFields && <Text style={styles.warning}>Все поля должны быть заполнены!</Text> }
             {
               !coordinates &&
               <TouchableOpacity style={styles.buttonGetLocation} onPress={onButtonGetLocation}>
@@ -154,6 +154,10 @@ const styles = StyleSheet.create({
   textInput: {
     margin: 10,
     fontSize: 22
+  },
+  warning: {
+    fontSize: 16,
+    color: 'red'
   },
   input: {
     paddingHorizontal: 10,

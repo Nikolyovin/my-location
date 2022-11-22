@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         // flex: 1,
     },
     textRight: {
-        // fontFamily: 'italic'
+        fontFamily: 'Arial, Helvetica, sans-serif',
         fontSize: 16
     },
     leftWrap: {
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 16,
+        fontFamily: "Cochin"
     },
     iconContainer: {
         height: '100%',
