@@ -34,7 +34,7 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }
                 itemHeight.value = withTiming(0)
                 marginVertical.value = withTiming(0)
                 opacity.value = withTiming(0)
-                removeLocation(id)
+                setTimeout(() => { removeLocation(id) }, 1000);  //need for animation
             } else {
                 translateX.value = withTiming(0)                                 //чтобы после окончания свайпа, объект возвращался обратно withTiming нужен для анимации
             }

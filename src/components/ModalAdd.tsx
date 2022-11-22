@@ -3,6 +3,7 @@ import React, { FC, useState } from 'react'
 import * as Location from 'expo-location';
 import { useAppSelector } from '../hooks/redux';
 import { useActions } from '../hooks/action';
+import ModalButtons from './ModalButtons';
 
 const ModalAdd: FC = () => {
   const { iSModal } = useAppSelector(state => state.app)
@@ -43,14 +44,14 @@ const ModalAdd: FC = () => {
     iShowModal(false)
     setСoordinates(null)
     onChangeDescription('')
+    setIsEmptyFields(false)
   }
 
   const onPressAdd = () => {
     const id = Date.now().toString()
     coordinates && description 
-      ? addLocation({ coordinates, description, id })
+      ? addLocation({ coordinates, description, id }) && cleanModal()
       : setIsEmptyFields(true)
-    cleanModal()
   }
 
   const onPressClose = () => {
@@ -69,7 +70,7 @@ const ModalAdd: FC = () => {
         <View style={styles.centeredView} >
           <View style={styles.modalView}>
             <Text style={styles.textInput}>Контрольная точка</Text>
-           { isEmptyFields && <Text style={styles.warning}>Все поля должны быть заполнены!</Text> }
+           { isEmptyFields && <Text style={styles.warning}>Заполните все поля!</Text> }
             {
               !coordinates &&
               <TouchableOpacity style={styles.buttonGetLocation} onPress={onButtonGetLocation}>
@@ -92,15 +93,7 @@ const ModalAdd: FC = () => {
               numberOfLines={2}
               placeholder='Описание'
             />
-            <View style={styles.footerModal}>
-              <TouchableOpacity style={styles.buttonAdd} onPress={onPressAdd}>
-                <Text style={styles.textButton}>Добавить</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonClose} onPress={onPressClose}>
-                <Text style={styles.text}>Отменить</Text>
-              </TouchableOpacity>
-            </View>
-
+            <ModalButtons onPressAdd = { onPressAdd } onPressClose = { onPressClose } />
           </View>
         </View>
       </Modal>
@@ -168,25 +161,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
   },
-  footerModal: {
-    flexDirection: 'row',
-    paddingBottom: 20,
-    justifyContent: 'space-between'
-  },
-  buttonAdd: {
-    backgroundColor: "#00c68f",
-    marginTop: 10,
-    padding: 9.5,
-    borderRadius: 15,
-    marginRight: 5,
-  },
-  buttonClose: {
-    borderColor: "#00c68f",
-    borderWidth: 2,
-    marginTop: 10,
-    padding: 9.5,
-    borderRadius: 15,
-  },
+  
+ 
   // buttonClose: {
   //   width: 20,
   //   position: 'absolute',

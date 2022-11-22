@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 import emailjs from "emailjs-com"
 import { REACT_APP_SERVICE_ID, REACT_APP_TEMPLATE_ID, REACT_APP_USER_ID } from "@env"
+import { useActions } from '../hooks/action'
 
 interface IProps {
   coordinates: number[]
@@ -11,6 +12,7 @@ interface IProps {
 }
 
 const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
+  const { isShowNotification } = useActions()
 
   const templateParams = {
     coordinates: `Широта: ${coordinates[0]} Долгота: ${coordinates[1]}`,
@@ -25,8 +27,8 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
       templateParams,
       REACT_APP_USER_ID,
     ).then(
-      result => console.log(result.text),
-      error => console.log(error.text),
+      result => { if (result.status === 200) isShowNotification(true) } ,
+      error => console.log(error),
     )
   }
 
@@ -34,12 +36,8 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
     <TouchableOpacity  onPress = { sendEmail }>
       <FontAwesome5
         name = { 'envelope-square' }
-        // name = { 'circle-envelope' }
-        // name = { 'share' }
-        // name = { 'paper-plane-top' }
-
         size = { 40 }
-        color = { '#00c68f' }
+        color = { 'black' }
       />
     </TouchableOpacity>
   )

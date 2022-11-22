@@ -4,6 +4,7 @@ import { ILokations } from "../models/models"
 interface IAppState {
     locations: Array<ILokations>
     iSModal: boolean
+    isNotification: boolean
 }
 
 const initialState: IAppState = {
@@ -16,7 +17,8 @@ const initialState: IAppState = {
         { coordinates: [500000, 390000], description: 'tetwtwe5', id: '6' },
         { coordinates: [500000, 390000], description: 'tetwtwe6', id: '7' },
     ],
-    iSModal: false
+    iSModal: false,
+    isNotification: false
 }
 
 
@@ -30,15 +32,13 @@ export const appSlice = createSlice({
         },
         addLocation(state, action: PayloadAction<ILokations>) {
             state.locations?.push(action.payload)
-            console.log('state1', state)
         },
         removeLocation(state, action: PayloadAction<string>) {
-            state.locations = state.locations?.filter((item) => {
-                console.log('item.id',item.id)
-                console.log('action.payload', action.payload)
-               return item.id !== action.payload})
-                console.log(current(state))    
+            state.locations = state.locations?.filter((item) => item.id !== action.payload)
         },
+        isShowNotification(state, action: PayloadAction<boolean>) {
+            state.isNotification = action.payload
+        }
     }
 })
 
