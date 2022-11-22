@@ -7,12 +7,12 @@ const NotificationSuccess: FC = () => {
     return (
         <>
             <FontAwesome5
-                name = { 'check-circle' }
-                size = { 40 }
-                color = { '#00c68f' }
+                name={'check-circle'}
+                size={40}
+                color={'#00c68f'}
             />
-                <Text style={styles.text}>Сообщение успешно отправленно на почтовый ящик!</Text>
-        </> 
+            <Text style={styles.text}>Сообщение успешно отправленно на почтовый ящик!</Text>
+        </>
     )
 }
 
@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: 5,
         fontSize: 20,
-        fontFamily: 'Cochin'
+        textAlign: 'center',
+        // fontFamily: 'Cochin'
     },
-    
+
 })

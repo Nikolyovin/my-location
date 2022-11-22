@@ -15,15 +15,15 @@ const Notification: FC = () => {
             <Modal
                 animationType="fade"
                 transparent={true}
-                visible={isNotification}
-                // visible={true}
+                // visible={isNotification}
+                visible={true}
             >
                 <View style={styles.centeredView} >
                     <View style={styles.modalView}>
-                        <NotificationSuccess/>
-                        {/* <NotificationError/> */}
-                        <TouchableOpacity style = { styles.button } onPress = { () => isShowNotification(false) }>
-                            <Text style = { styles.textButton }>ОК</Text>
+                        <NotificationSuccess />
+                        {/* <NotificationError /> */}
+                        <TouchableOpacity style={styles.button} onPress={() => isShowNotification(false)}>
+                            <Text style={styles.textButton}>ОК</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -52,22 +52,25 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 20,
         paddingHorizontal: 15,
-        textAlign: "center",
+        // textAlign: "center",
+        alignItems: 'center',
         shadowColor: "#000",
         shadowOffset: {
-          width: 0,
-          height: 2
+            width: 0,
+            height: 2
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5
     },
-    button:{
+    button: {
         backgroundColor: "#00c68f",
         marginTop: 10,
         padding: 9.5,
         borderRadius: 15,
         marginRight: 5,
+        width: 100,
+        alignItems: 'center',
     },
     textButton: {
         color: 'white'
