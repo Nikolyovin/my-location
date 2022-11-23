@@ -1,29 +1,24 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit"
+import { AsyncStorage } from "react-native"
 import { ILokations } from "../models/models"
+
+const keyAsyncStorage = 'locations'
 
 interface IAppState {
     locations: Array<ILokations>
     iSModal: boolean
     isNotification: boolean
     isNotificationError: boolean
+    isLoading: boolean
 }
 
 const initialState: IAppState = {
-    locations: [
-        { coordinates: [500000, 390000], description: 'tetwtwe', id: '1' },
-        { coordinates: [500000, 390000], description: 'tetwtwe1', id: '2' },
-        { coordinates: [500000, 390000], description: 'tetwtwe2', id: '3' },
-        { coordinates: [500000, 390000], description: 'tetwtwe3', id: '4' },
-        { coordinates: [500000, 390000], description: 'tetwtwe4', id: '5' },
-        { coordinates: [500000, 390000], description: 'tetwtwe5', id: '6' },
-        { coordinates: [500000, 390000], description: 'tetwtwe6', id: '7' },
-    ],
+    locations:  JSON.parse(localStorage.getItem(keyAsyncStorage) ?? '[]') ,
     iSModal: false,
     isNotification: false,
-    isNotificationError: false
+    isNotificationError: false,
+    isLoading: false
 }
-
-
 
 export const appSlice = createSlice({
     name: 'app',
@@ -34,16 +29,21 @@ export const appSlice = createSlice({
         },
         addLocation(state, action: PayloadAction<ILokations>) {
             state.locations?.push(action.payload)
+            AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(state.locations))
         },
         removeLocation(state, action: PayloadAction<string>) {
             state.locations = state.locations?.filter((item) => item.id !== action.payload)
+            AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(state.locations))
         },
         isShowNotification(state, action: PayloadAction<boolean>) {
             state.isNotification = action.payload
         },
         isShowNotificationError(state, action: PayloadAction<boolean>) {
             state.isNotificationError = action.payload
-        }
+        },
+        isShowLoading(state, action: PayloadAction<boolean>) {
+            state.isLoading = action.payload
+        },
     }
 })
 

@@ -3,12 +3,14 @@ import React, { FC, useRef } from 'react'
 import Card from './Card'
 import { useAppSelector } from '../hooks/redux'
 import { ScrollView } from 'react-native-gesture-handler'
+import IsLoading from './IsLoading'
 
 const Cards: FC = () => {
-    const { locations } = useAppSelector(state => state.app)
-    console.log('locations', locations);
+    const { locations, isLoading } = useAppSelector(state => state.app)
 
     const scrollRef = useRef(null)                        //needed to resolve the conflict with reanimated and ScrollView
+
+    if (isLoading) return <IsLoading/>
 
     return (
         <ScrollView ref={scrollRef} style={styles.cardsWrap}>
@@ -35,7 +37,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 15,
         width: '100%',
-        // alignItems: 'center'
     },
     cardsList: {
 

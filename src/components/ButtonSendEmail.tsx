@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
-  const { isShowNotification, isShowNotificationError } = useActions()
+  const { isShowNotification, isShowNotificationError, isShowLoading } = useActions()
 
   const templateParams = {
     coordinates: `Широта: ${coordinates[0]} Долгота: ${coordinates[1]}`,
@@ -21,6 +21,7 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
   }
 
   const sendEmail = () => {
+    isShowLoading(true)
     emailjs.send(
       REACT_APP_SERVICE_ID,
       REACT_APP_TEMPLATE_ID,
@@ -31,6 +32,7 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
       error => isShowNotificationError(true) && isShowNotification(true)
       ,
     )
+    isShowLoading(false)
   }
 
   return (
