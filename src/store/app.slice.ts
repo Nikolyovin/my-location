@@ -5,6 +5,7 @@ interface IAppState {
     locations: Array<ILokations>
     iSModal: boolean
     isNotification: boolean
+    isNotificationError: boolean
 }
 
 const initialState: IAppState = {
@@ -18,7 +19,8 @@ const initialState: IAppState = {
         { coordinates: [500000, 390000], description: 'tetwtwe6', id: '7' },
     ],
     iSModal: false,
-    isNotification: false
+    isNotification: false,
+    isNotificationError: false
 }
 
 
@@ -38,6 +40,9 @@ export const appSlice = createSlice({
         },
         isShowNotification(state, action: PayloadAction<boolean>) {
             state.isNotification = action.payload
+        },
+        isShowNotificationError(state, action: PayloadAction<boolean>) {
+            state.isNotificationError = action.payload
         }
     }
 })

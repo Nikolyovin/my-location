@@ -7,22 +7,21 @@ import NotificationSuccess from './NotificationSuccess'
 import NotificationError from './NotificationError'
 
 const Notification: FC = () => {
-    const { isNotification } = useAppSelector(state => state.app)
-    const { isShowNotification } = useActions()
+    const { isNotification, isNotificationError } = useAppSelector(state => state.app)
+    const { isShowNotification, isShowNotificationError } = useActions()
 
     return (
         <View style={styles.centeredView} >
             <Modal
                 animationType="fade"
                 transparent={true}
-                // visible={isNotification}
-                visible={true}
+                visible={isNotification}
+                // visible={true}
             >
                 <View style={styles.centeredView} >
                     <View style={styles.modalView}>
-                        <NotificationSuccess />
-                        {/* <NotificationError /> */}
-                        <TouchableOpacity style={styles.button} onPress={() => isShowNotification(false)}>
+                        { isNotificationError ? <NotificationError /> : <NotificationSuccess /> }
+                        <TouchableOpacity style={styles.button} onPress={ () => isShowNotification(false) && isShowNotificationError(false) }>
                             <Text style={styles.textButton}>ОК</Text>
                         </TouchableOpacity>
                     </View>

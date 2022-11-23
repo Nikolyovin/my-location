@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
-  const { isShowNotification } = useActions()
+  const { isShowNotification, isShowNotificationError } = useActions()
 
   const templateParams = {
     coordinates: `Широта: ${coordinates[0]} Долгота: ${coordinates[1]}`,
@@ -28,7 +28,8 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
       REACT_APP_USER_ID,
     ).then(
       result => { if (result.status === 200) isShowNotification(true) } ,
-      error => console.log(error),
+      error => isShowNotificationError(true) && isShowNotification(true)
+      ,
     )
   }
 
