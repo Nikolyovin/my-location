@@ -1,10 +1,11 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
-import React, { FC } from 'react'
+import { AsyncStorage, Dimensions, StyleSheet, Text, View, Alert } from 'react-native'
+import React, { FC, useEffect } from 'react'
 import { GestureHandlerRootView, PanGestureHandler, PanGestureHandlerGestureEvent, PanGestureHandlerProps } from 'react-native-gesture-handler'
 import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { FontAwesome5 } from '@expo/vector-icons'
 import ButtonSendEmail from './ButtonSendEmail'
 import { useActions } from '../hooks/action'
+import { useAppSelector } from '../hooks/redux'
 
 interface IProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {       //наследуем в типы simultaneousHandlers для того чтобы убрать конфликт со скроллом
     coordinates: number[]
@@ -14,6 +15,18 @@ interface IProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> { 
 
 const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }) => {
     const { removeLocation } = useActions()
+    const { locations } = useAppSelector(state => state.app)
+
+    const remove: () => void = async () => {          //удаление происходит путем апдейта payments
+        try {
+            await AsyncStorage.setItem('loc', JSON.stringify(locations))
+        } catch (err: any) {
+            Alert.alert(err.message)
+        }
+    }
+    useEffect(() => {
+        remove()
+    }, [locations])
 
     //need for swipe
     const { width: SCREEN_WIDTH } = Dimensions.get('window')

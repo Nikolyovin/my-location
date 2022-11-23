@@ -1,16 +1,42 @@
-import { Modal, StyleSheet, View, Text, TouchableOpacity, TextInput, ActivityIndicator, } from 'react-native'
-import React, { FC, useState } from 'react'
+import { Modal, StyleSheet, View, Text, TouchableOpacity, TextInput, ActivityIndicator, AsyncStorage, Alert } from 'react-native'
+import React, { FC, useState, useEffect } from 'react'
 import * as Location from 'expo-location';
 import { useAppSelector } from '../hooks/redux';
 import { useActions } from '../hooks/action';
 import ModalButtons from './ModalButtons';
 
 const ModalAdd: FC = () => {
-  const { iSModal } = useAppSelector(state => state.app)
+  const { iSModal, locations } = useAppSelector(state => state.app)
   const { iShowModal, addLocation } = useActions()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [description, onChangeDescription] = useState<string>('')
   const [isEmptyFields, setIsEmptyFields] = useState<boolean>(false)
+
+  const save = async () => {
+    console.log('locations', locations)
+    try {
+      await AsyncStorage.setItem('loc', JSON.stringify(locations))
+      
+    } catch (err: any) {
+      Alert.alert(err.message)
+      console.log('err.message', err.message)
+    }
+  }
+////delete
+//   const requestPayments: () => void = async ()  => {
+//     try {
+//         const locations = await AsyncStorage.getItem('loc')
+//         console.log('locationsAwait', locations)
+        
+//     } catch (e) {
+//         console.log(e)
+//     }
+// }
+///////
+  useEffect(() => {
+    save()
+    // requestPayments()
+  }, [locations])
 
   // for getting locations 
   const [coordinates, setСoordinates] = useState<number[] | null>(null)

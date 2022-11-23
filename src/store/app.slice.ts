@@ -13,7 +13,8 @@ interface IAppState {
 }
 
 const initialState: IAppState = {
-    locations:  JSON.parse(localStorage.getItem(keyAsyncStorage) ?? '[]') ,
+    // locations:  JSON.parse(AsyncStorage.getItem(keyAsyncStorage) ?? '[]') ,
+    locations: [],
     iSModal: false,
     isNotification: false,
     isNotificationError: false,
@@ -29,11 +30,9 @@ export const appSlice = createSlice({
         },
         addLocation(state, action: PayloadAction<ILokations>) {
             state.locations?.push(action.payload)
-            AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(state.locations))
         },
         removeLocation(state, action: PayloadAction<string>) {
             state.locations = state.locations?.filter((item) => item.id !== action.payload)
-            AsyncStorage.setItem(keyAsyncStorage, JSON.stringify(state.locations))
         },
         isShowNotification(state, action: PayloadAction<boolean>) {
             state.isNotification = action.payload
@@ -44,6 +43,9 @@ export const appSlice = createSlice({
         isShowLoading(state, action: PayloadAction<boolean>) {
             state.isLoading = action.payload
         },
+        setLocations(state, action: PayloadAction<ILokations[]>) {
+            state.locations = action.payload
+        }
     }
 })
 
