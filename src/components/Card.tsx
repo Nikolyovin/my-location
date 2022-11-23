@@ -43,16 +43,27 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }
         onEnd: () => {
             const shouldBeDismissed = translateX.value < TRANSATE_X_THRESHOLD
             if (shouldBeDismissed) {
+                removeLocation(id)
                 translateX.value = withTiming(-SCREEN_WIDTH) // действие будет отмененно
                 itemHeight.value = withTiming(0)
                 marginVertical.value = withTiming(0)
                 opacity.value = withTiming(0)
-                setTimeout(() => { removeLocation(id) }, 1000);  //need for animation
+                // setTimeout(() => { removeLocation(id) }, 1000);  //need for animation
+                console.log('11111111111111')
             } else {
                 translateX.value = withTiming(0)                                 //чтобы после окончания свайпа, объект возвращался обратно withTiming нужен для анимации
             }
-        }
+            // removeLocation(id)
+        },
+
     })
+
+    const deleteLoc = () => {
+        console.log('11111111111111');
+
+        // removeLocation(id)
+        console.log('11111111111111');
+    }
 
     //it additional style for animation 
     const rStyle = useAnimatedStyle(() => ({
@@ -129,7 +140,7 @@ const styles = StyleSheet.create({
         // flex: 1,
     },
     textRight: {
-        fontFamily: 'Arial, Helvetica, sans-serif',
+        // fontFamily: 'Arial, Helvetica, sans-serif',
         fontSize: 16
     },
     leftWrap: {
@@ -137,7 +148,7 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 16,
-        fontFamily: "Cochin"
+        // fontFamily: "Cochin"
     },
     iconContainer: {
         height: '100%',

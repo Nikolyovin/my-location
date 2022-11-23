@@ -32,6 +32,8 @@ export const appSlice = createSlice({
             state.locations?.push(action.payload)
         },
         removeLocation(state, action: PayloadAction<string>) {
+            console.log('action:', action);
+
             state.locations = state.locations?.filter((item) => item.id !== action.payload)
         },
         isShowNotification(state, action: PayloadAction<boolean>) {
