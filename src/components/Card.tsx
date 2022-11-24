@@ -19,7 +19,7 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }
 
     const remove: () => void = async () => {          //удаление происходит путем апдейта payments
         try {
-            await AsyncStorage.setItem('loc', JSON.stringify(locations))
+            await AsyncStorage.setItem('locations', JSON.stringify(locations))
         } catch (err: any) {
             Alert.alert(err.message)
         }

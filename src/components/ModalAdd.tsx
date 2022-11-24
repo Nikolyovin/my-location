@@ -15,7 +15,7 @@ const ModalAdd: FC = () => {
   const save = async () => {
     console.log('locations', locations)
     try {
-      await AsyncStorage.setItem('loc', JSON.stringify(locations))
+      await AsyncStorage.setItem('locations', JSON.stringify(locations))
       
     } catch (err: any) {
       Alert.alert(err.message)

@@ -12,7 +12,7 @@ const Cards: FC = () => {
 
     const requestPayments: () => void = async () => {
         try {
-            const locations = await AsyncStorage.getItem('loc')
+            const locations = await AsyncStorage.getItem('locations')
             console.log('locationsAwait', locations)
 
             setLocations(JSON.parse(locations))
