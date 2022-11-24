@@ -12,16 +12,16 @@ const ModalAdd: FC = () => {
   const [description, onChangeDescription] = useState<string>('')
   const [isEmptyFields, setIsEmptyFields] = useState<boolean>(false)
 
-  const save = async () => {
-    console.log('locations', locations)
-    try {
-      await AsyncStorage.setItem('locations', JSON.stringify(locations))
+  // const save = async () => {
+  //   console.log('locations', locations)
+  //   try {
+  //     await AsyncStorage.setItem('locations', JSON.stringify(locations))
       
-    } catch (err: any) {
-      Alert.alert(err.message)
-      console.log('err.message', err.message)
-    }
-  }
+  //   } catch (err: any) {
+  //     Alert.alert(err.message)
+  //     console.log('err.message', err.message)
+  //   }
+  // }
 ////delete
 //   const requestPayments: () => void = async ()  => {
 //     try {
@@ -34,7 +34,7 @@ const ModalAdd: FC = () => {
 // }
 ///////
   useEffect(() => {
-    save()
+    // save()
     // requestPayments()
   }, [locations])
 

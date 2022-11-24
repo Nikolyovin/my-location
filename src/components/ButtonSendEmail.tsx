@@ -5,6 +5,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import emailjs from "emailjs-com"
 import { REACT_APP_SERVICE_ID, REACT_APP_TEMPLATE_ID, REACT_APP_USER_ID } from "@env"
 import { useActions } from '../hooks/action'
+import { useAppSelector } from '../hooks/redux'
 
 interface IProps {
   coordinates: number[]
@@ -13,6 +14,7 @@ interface IProps {
 
 const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
   const { isShowNotification, isShowNotificationError, isShowLoading } = useActions()
+  const { isLoading } = useAppSelector(state => state.app)
 
   const templateParams = {
     coordinates: `Широта: ${coordinates[0]} Долгота: ${coordinates[1]}`,
@@ -22,6 +24,8 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
 
   const sendEmail = () => {
     isShowLoading(true)
+    console.log('isLoading1', isLoading);
+    
     emailjs.send(
       REACT_APP_SERVICE_ID,
       REACT_APP_TEMPLATE_ID,
@@ -32,7 +36,7 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
       error => isShowNotificationError(true) && isShowNotification(true)
       ,
     )
-    isShowLoading(false)
+    isShowLoading('isLoading2', isLoading)
   }
 
   return (

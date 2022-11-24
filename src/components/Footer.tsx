@@ -13,7 +13,7 @@ const Footer = () => {
     return (
         <View style={styles.buttonWrap}>
             <TouchableOpacity style={styles.buttonAdd} onPress={onShowModal}>
-                <Text style={styles.buttonAddText}>Получить координаты</Text>
+                <Text style={styles.buttonAddText}>Добавить точку</Text>
             </TouchableOpacity>
         </View>
     )

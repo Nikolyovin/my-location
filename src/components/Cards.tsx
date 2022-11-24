@@ -10,25 +10,27 @@ const Cards: FC = () => {
     const { locations, isLoading } = useAppSelector(state => state.app)
     const { setLocations } = useActions()
 
-    const requestPayments: () => void = async () => {
-        try {
-            const locations = await AsyncStorage.getItem('locations')
-            console.log('locationsAwait', locations)
+    // const requestPayments: () => void = async () => {
+    //     try {
+    //         const locations = await AsyncStorage.getItem('locations')
+    //         console.log('locationsAwait', locations)
 
-            setLocations(JSON.parse(locations))
-        } catch (e) {
-            console.log(e)
-        }
-    }
+    //         setLocations(JSON.parse(locations))
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
 
     useEffect(() => {
-        requestPayments()
+        // requestPayments()
     }, [])
 
 
     const scrollRef = useRef(null)                        //needed to resolve the conflict with reanimated and ScrollView
 
     if (isLoading) return <IsLoading />
+
+    // return <IsLoading />
 
     return (
         <ScrollView ref={scrollRef} style={styles.cardsWrap}>

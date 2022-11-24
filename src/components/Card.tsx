@@ -17,15 +17,15 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }
     const { removeLocation } = useActions()
     const { locations } = useAppSelector(state => state.app)
 
-    const remove: () => void = async () => {          //удаление происходит путем апдейта payments
-        try {
-            await AsyncStorage.setItem('locations', JSON.stringify(locations))
-        } catch (err: any) {
-            Alert.alert(err.message)
-        }
-    }
+    // const remove: () => void = async () => {          //удаление происходит путем апдейта payments
+    //     try {
+    //         await AsyncStorage.setItem('locations', JSON.stringify(locations))
+    //     } catch (err: any) {
+    //         Alert.alert(err.message)
+    //     }
+    // }
     useEffect(() => {
-        remove()
+        console.log('locations1', locations)
     }, [locations])
 
     //need for swipe
@@ -43,13 +43,11 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }
         onEnd: () => {
             const shouldBeDismissed = translateX.value < TRANSATE_X_THRESHOLD
             if (shouldBeDismissed) {
-                removeLocation(id)
                 translateX.value = withTiming(-SCREEN_WIDTH) // действие будет отмененно
                 itemHeight.value = withTiming(0)
                 marginVertical.value = withTiming(0)
                 opacity.value = withTiming(0)
-                // setTimeout(() => { removeLocation(id) }, 1000);  //need for animation
-                console.log('11111111111111')
+                setTimeout(() => { removeLocation(id) }, 1000);  //need for animation              
             } else {
                 translateX.value = withTiming(0)                                 //чтобы после окончания свайпа, объект возвращался обратно withTiming нужен для анимации
             }
@@ -57,13 +55,6 @@ const Card: FC<IProps> = ({ coordinates, description, simultaneousHandlers, id }
         },
 
     })
-
-    const deleteLoc = () => {
-        console.log('11111111111111');
-
-        // removeLocation(id)
-        console.log('11111111111111');
-    }
 
     //it additional style for animation 
     const rStyle = useAnimatedStyle(() => ({

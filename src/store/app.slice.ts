@@ -42,7 +42,7 @@ export const appSlice = createSlice({
         isShowNotificationError(state, action: PayloadAction<boolean>) {
             state.isNotificationError = action.payload
         },
-        isShowLoading(state, action: PayloadAction<boolean>) {
+        isShowLoading(state, action: PayloadAction<boolean>) {         
             state.isLoading = action.payload
         },
         setLocations(state, action: PayloadAction<ILokations[]>) {
