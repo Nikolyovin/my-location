@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
-  const { isShowNotification, isShowNotificationError, isShowLoading, setSendError } = useActions()
+  const { isShowNotification, isShowNotificationError, isShowLoading } = useActions()
   const { isLoading } = useAppSelector(state => state.app)
 
   const templateParams = {
@@ -22,8 +22,9 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
     description: description
   }
 
-  const sendEmail: () => void = () => {
+  const sendEmail = () => {
     isShowLoading(true)
+    console.log('isLoading1', isLoading);
     
     emailjs.send(
       REACT_APP_SERVICE_ID,
@@ -32,9 +33,10 @@ const ButtonSendEmail: FC<IProps> = ({ coordinates, description }) => {
       REACT_APP_USER_ID,
     ).then(
       result => { if (result.status === 200) isShowNotification(true) } ,
-      error => setSendError(error.text) && isShowNotificationError(true) && isShowNotification(true),
-      // error => console.log(error)
+      error => isShowNotificationError(true) && isShowNotification(true)
+      ,
     )
+    isShowLoading('isLoading2', isLoading)
   }
 
   return (

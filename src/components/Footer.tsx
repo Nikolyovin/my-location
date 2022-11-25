@@ -8,7 +8,7 @@ import { ILokations } from '../models/models';
 import { FontAwesome5 } from '@expo/vector-icons'
 
 const Footer: FC = () => {
-    const { iShowModal, setLocations, isShowLoading, isShowNotification, isShowNotificationError } = useActions()
+    const { iShowModal, setLocations, isShowLoading, isShowNotification, isShowNotificationError, setSendError } = useActions()
     const { locations, isLoading } = useAppSelector(state => state.app)
 
     const onShowModal: () => void = () => {
@@ -34,6 +34,8 @@ const Footer: FC = () => {
         ).then(
             result => { if (result.status === 200) isShowLoading(false) && isShowNotification(true) },
             error => {
+                console.log(error)
+                setSendError(error.text)
                 isShowLoading(false)
                 isShowNotificationError(true) 
                 isShowNotification(true)
