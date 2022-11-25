@@ -20,9 +20,11 @@ const Footer: FC = () => {
     }
 
     const templateParams = {
-        body: locations.map(item => `Широта: ${ item.coordinates[0] } Долгота: ${ item.coordinates[1] } Описание: ${ item.description }`),
+        body: locations.map(item => `Широта: ${ item.coordinates[0] }, Долгота: ${ item.coordinates[1] };  Описание: ${ item.description };\n`).join(''),
         user_email: 'pulya0763@gmail.com',
     }
+    console.log(templateParams.body);
+    
 
     const sendEmail: () => void = () => {
         isShowLoading(true)
@@ -69,8 +71,8 @@ const styles = StyleSheet.create({
         paddingBottom: 30
     },
     button: {
-        // backgroundColor: '#00c68f',
-        backgroundColor: 'red',
+        backgroundColor: '#00c68f',
+        // backgroundColor: 'red',
         // width: '100%',
         height: 50,
         alignItems: 'center',
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
         borderRadius: 15
     },
     buttonAdd: {
-        backgroundColor: '#00c68f',
+        // backgroundColor: '#00c68f',
         width: 50,
         height: 50,
         alignItems: 'center',
