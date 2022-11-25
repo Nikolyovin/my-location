@@ -5,6 +5,7 @@ import { useAppSelector } from '../hooks/redux';
 import { REACT_APP_SERVICE_ID, REACT_APP_TEMPLATE_ID, REACT_APP_USER_ID } from "@env"
 import emailjs from "emailjs-com"
 import { ILokations } from '../models/models';
+import { FontAwesome5 } from '@expo/vector-icons'
 
 const Footer: FC = () => {
     const { iShowModal, setLocations, isShowLoading, isShowNotification, isShowNotificationError } = useActions()
@@ -45,7 +46,11 @@ const Footer: FC = () => {
                 <Text style = { styles.buttonAddText }>Отправить на почту</Text>
             </TouchableOpacity>
             <TouchableOpacity style = { styles.buttonAdd } onPress = { onShowModal }>
-                <Text style = { styles.buttonAddText }>+</Text>
+                <FontAwesome5
+                    name = { 'plus' }
+                    size = { 40 }
+                    color = { '#00c68f' }
+                />
             </TouchableOpacity>
             <TouchableOpacity style = { styles.button } onPress = { removeAll }>
                 <Text style = { styles.buttonAddText }>Удалить всё</Text>
