@@ -23,23 +23,22 @@ const Footer: FC = () => {
         body: locations.map(item => `Широта: ${ item.coordinates[0] }, Долгота: ${ item.coordinates[1] };  Описание: ${ item.description };\n`).join(''),
         user_email: 'pulya0763@gmail.com',
     }
-    console.log(templateParams.body);
-    
 
     const sendEmail: () => void = () => {
         isShowLoading(true)
-        
         emailjs.send(
-          REACT_APP_SERVICE_ID,
-          REACT_APP_TEMPLATE_ID,
-          templateParams,
-          REACT_APP_USER_ID,
+            REACT_APP_SERVICE_ID,
+            REACT_APP_TEMPLATE_ID,
+            templateParams,
+            REACT_APP_USER_ID,
         ).then(
-          result => { if (result.status === 200) isShowNotification(true) } ,
-          error => isShowNotificationError(true) && isShowNotification(true)
-          ,
+            result => { if (result.status === 200) isShowLoading(false) && isShowNotification(true) },
+            error => {
+                isShowLoading(false)
+                isShowNotificationError(true) 
+                isShowNotification(true)
+            },
         )
-        isShowLoading(false)
     }
 
     return (

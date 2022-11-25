@@ -10,6 +10,7 @@ interface IAppState {
     isNotification: boolean
     isNotificationError: boolean
     isLoading: boolean
+    emailError: string
 }
 
 const initialState: IAppState = {
@@ -18,7 +19,8 @@ const initialState: IAppState = {
     iSModal: false,
     isNotification: false,
     isNotificationError: false,
-    isLoading: false
+    isLoading: false,
+    emailError: ''
 }
 
 export const appSlice = createSlice({
@@ -32,8 +34,6 @@ export const appSlice = createSlice({
             state.locations?.push(action.payload)
         },
         removeLocation(state, action: PayloadAction<string>) {
-            console.log('action:', action);
-
             state.locations = state.locations?.filter((item) => item.id !== action.payload)
         },
         isShowNotification(state, action: PayloadAction<boolean>) {
@@ -42,11 +42,14 @@ export const appSlice = createSlice({
         isShowNotificationError(state, action: PayloadAction<boolean>) {
             state.isNotificationError = action.payload
         },
-        isShowLoading(state, action: PayloadAction<boolean>) {         
+        isShowLoading(state, action: PayloadAction<boolean>) {       
             state.isLoading = action.payload
         },
         setLocations(state, action: PayloadAction<ILokations[]>) {
             state.locations = action.payload
+        },
+        setSendError(state, action: PayloadAction<string>) {
+            state.emailError = action.payload
         }
     }
 })
