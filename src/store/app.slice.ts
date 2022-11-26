@@ -42,13 +42,15 @@ export const appSlice = createSlice({
         isShowNotificationError(state, action: PayloadAction<boolean>) {
             state.isNotificationError = action.payload
         },
-        isShowLoading(state, action: PayloadAction<boolean>) {       
+        isShowLoading(state, action: PayloadAction<boolean>) {
             state.isLoading = action.payload
         },
         setLocations(state, action: PayloadAction<ILokations[]>) {
             state.locations = action.payload
         },
         setSendError(state, action: PayloadAction<string>) {
+            console.log('action.payload', action.payload);
+
             state.emailError = action.payload
         }
     }

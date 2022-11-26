@@ -16,13 +16,12 @@ const Notification: FC = () => {
                 animationType="fade"
                 transparent={true}
                 visible={isNotification}
-                // visible={true}
+            // visible={true}
             >
                 <View style={styles.centeredView} >
                     <View style={styles.modalView}>
-                        { isNotificationError ? <NotificationError /> : <NotificationSuccess /> }
-                        { emailError || <></> }
-                        <TouchableOpacity style={styles.button} onPress={ () => isShowNotification(false) && isShowNotificationError(false) }>
+                        {isNotificationError ? <NotificationError emailError={emailError} /> : <NotificationSuccess />}
+                        <TouchableOpacity style={styles.button} onPress={() => isShowNotification(false) && isShowNotificationError(false)}>
                             <Text style={styles.textButton}>ОК</Text>
                         </TouchableOpacity>
                     </View>

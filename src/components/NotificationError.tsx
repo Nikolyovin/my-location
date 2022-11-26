@@ -3,7 +3,11 @@ import React, { FC } from 'react'
 
 import { FontAwesome5 } from '@expo/vector-icons'
 
-const NotificationError: FC = () => {
+interface IProps {
+    emailError: string
+}
+
+const NotificationError: FC<IProps> = ({ emailError }) => {
     return (
         <>
             <FontAwesome5
@@ -12,6 +16,7 @@ const NotificationError: FC = () => {
                 color={'red'}
             />
             <Text style={styles.text}>ОШИБКА!!!</Text>
+            <Text style={styles.text}>{emailError}</Text>
         </>
     )
 }
