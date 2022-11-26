@@ -1,5 +1,5 @@
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { FC, useState } from 'react';
+import { Alert, AsyncStorage, Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { FC, useEffect, useState } from 'react';
 import { useActions } from '../hooks/action';
 import { useAppSelector } from '../hooks/redux';
 import { REACT_APP_SERVICE_ID, REACT_APP_TEMPLATE_ID, REACT_APP_USER_ID } from "@env"
@@ -11,6 +11,19 @@ const Footer: FC = () => {
     const { iShowModal, setLocations, isShowLoading, isShowNotification, isShowNotificationError, setSendError } = useActions()
     const { locations, isLoading } = useAppSelector(state => state.app)
 
+    // const remove = async () => {
+    //     try {
+    //         await AsyncStorage.setItem('locations', JSON.stringify(locations))
+    //     } catch (err: any) {
+    //         Alert.alert(err.message)
+    //         console.log('err.message', err.message)
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     remove()
+    // }, [locations])
+
     const onShowModal: () => void = () => {
         iShowModal(true)
     }
@@ -20,7 +33,7 @@ const Footer: FC = () => {
     }
 
     const templateParams = {
-        body: locations.map(item => `Широта: ${item.coordinates[0]}, Долгота: ${item.coordinates[1]};  Описание: ${item.description};\n`).join(''),
+        body: locations?.map(item => `Широта: ${item.coordinates[0]}, Долгота: ${item.coordinates[1]};  Описание: ${item.description};\n`).join(''),
         user_email: 'pulya0763@gmail.com',
     }
 

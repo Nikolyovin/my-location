@@ -1,5 +1,7 @@
-import { AsyncStorage, StyleSheet, Text, View } from 'react-native'
+import { AsyncStorage, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { FC, useEffect } from 'react'
+import { FontAwesome5 } from '@expo/vector-icons'
+import { useActions } from '../hooks/action'
 
 interface IProps {
     coordinates: number[]
@@ -8,9 +10,11 @@ interface IProps {
 }
 
 const Card: FC<IProps> = ({ coordinates, description, id }) => {
-    // const { removeLocation } = useActions()
+    const { removeLocation } = useActions()
     // const { locations } = useAppSelector(state => state.app)
-
+    const onRemove: () => void = () => {
+        removeLocation(id)
+    }
 
     return (
         <View style={styles.cardContainer}>
@@ -21,6 +25,15 @@ const Card: FC<IProps> = ({ coordinates, description, id }) => {
                 </View>
                 <Text style={styles.description}>{description}</Text>
             </View>
+            <View style={styles.iconWrap}>
+                <TouchableOpacity onPress={onRemove}>
+                    <FontAwesome5
+                        name={'trash-alt'}
+                        size={25}
+                        color={'red'}
+                    />
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -30,6 +43,8 @@ export default Card
 const styles = StyleSheet.create({
     cardContainer: {
         alignItems: 'center',
+        alignSelf: 'center',
+        width: '90%',
     },
     cardWrap: {
         backgroundColor: '#dafaf0',
@@ -41,7 +56,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         paddingVertical: 20,
         marginBottom: 10,
-        width: '90%',
         borderRadius: 15,
     },
     rightWrap: {
@@ -59,4 +73,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
         // fontFamily: "Cochin"
     },
+    iconWrap: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+    }
 })

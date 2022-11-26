@@ -1,6 +1,5 @@
 import { StyleSheet, Text } from 'react-native'
 import React, { FC } from 'react'
-
 import { FontAwesome5 } from '@expo/vector-icons'
 
 interface IProps {

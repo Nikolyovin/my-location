@@ -12,30 +12,17 @@ const ModalAdd: FC = () => {
   const [description, onChangeDescription] = useState<string>('')
   const [isEmptyFields, setIsEmptyFields] = useState<boolean>(false)
 
-  // const save = async () => {
-  //   console.log('locations', locations)
-  //   try {
-  //     await AsyncStorage.setItem('locations', JSON.stringify(locations))
-      
-  //   } catch (err: any) {
-  //     Alert.alert(err.message)
-  //     console.log('err.message', err.message)
-  //   }
-  // }
-////delete
-//   const requestPayments: () => void = async ()  => {
-//     try {
-//         const locations = await AsyncStorage.getItem('loc')
-//         console.log('locationsAwait', locations)
-        
-//     } catch (e) {
-//         console.log(e)
-//     }
-// }
-///////
+  const save = async () => {
+    try {
+      await AsyncStorage.setItem('locations', JSON.stringify(locations))
+    } catch (err: any) {
+      Alert.alert(err.message)
+      console.log('err.message', err.message)
+    }
+  }
+
   useEffect(() => {
-    // save()
-    // requestPayments()
+    save()
   }, [locations])
 
   // for getting locations 
@@ -76,7 +63,7 @@ const ModalAdd: FC = () => {
 
   const onPressAdd = () => {
     const id = Date.now().toString()
-    coordinates && description 
+    coordinates && description
       ? addLocation({ coordinates, description, id }) && cleanModal()
       : setIsEmptyFields(true)
   }
@@ -97,7 +84,7 @@ const ModalAdd: FC = () => {
         <View style={styles.centeredView} >
           <View style={styles.modalView}>
             <Text style={styles.textInput}>Контрольная точка</Text>
-           { isEmptyFields && <Text style={styles.warning}>Заполните все поля!</Text> }
+            {isEmptyFields && <Text style={styles.warning}>Заполните все поля!</Text>}
             {
               !coordinates &&
               <TouchableOpacity style={styles.buttonGetLocation} onPress={onButtonGetLocation}>
@@ -120,7 +107,7 @@ const ModalAdd: FC = () => {
               numberOfLines={2}
               placeholder='Описание'
             />
-            <ModalButtons onPressAdd = { onPressAdd } onPressClose = { onPressClose } />
+            <ModalButtons onPressAdd={onPressAdd} onPressClose={onPressClose} />
           </View>
         </View>
       </Modal>
@@ -188,8 +175,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
   },
-  
- 
+
+
   // buttonClose: {
   //   width: 20,
   //   position: 'absolute',

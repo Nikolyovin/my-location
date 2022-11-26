@@ -49,8 +49,6 @@ export const appSlice = createSlice({
             state.locations = action.payload
         },
         setSendError(state, action: PayloadAction<string>) {
-            console.log('action.payload', action.payload);
-
             state.emailError = action.payload
         }
     }
