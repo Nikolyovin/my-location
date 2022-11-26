@@ -7,7 +7,7 @@ import ModalButtons from './ModalButtons';
 
 const ModalAdd: FC = () => {
   const { iSModal, locations } = useAppSelector(state => state.app)
-  const { iShowModal, addLocation } = useActions()
+  const { iShowModal, addLocation, setSendError } = useActions()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [description, onChangeDescription] = useState<string>('')
   const [isEmptyFields, setIsEmptyFields] = useState<boolean>(false)
@@ -71,6 +71,7 @@ const ModalAdd: FC = () => {
     setСoordinates(null)
     onChangeDescription('')
     setIsEmptyFields(false)
+    setSendError('')
   }
 
   const onPressAdd = () => {

@@ -7,7 +7,7 @@ import NotificationSuccess from './NotificationSuccess'
 import NotificationError from './NotificationError'
 
 const Notification: FC = () => {
-    const { isNotification, isNotificationError } = useAppSelector(state => state.app)
+    const { isNotification, isNotificationError, emailError } = useAppSelector(state => state.app)
     const { isShowNotification, isShowNotificationError } = useActions()
 
     return (
@@ -21,6 +21,7 @@ const Notification: FC = () => {
                 <View style={styles.centeredView} >
                     <View style={styles.modalView}>
                         { isNotificationError ? <NotificationError /> : <NotificationSuccess /> }
+                        { emailError || <></> }
                         <TouchableOpacity style={styles.button} onPress={ () => isShowNotification(false) && isShowNotificationError(false) }>
                             <Text style={styles.textButton}>ОК</Text>
                         </TouchableOpacity>

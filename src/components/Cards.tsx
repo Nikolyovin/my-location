@@ -27,11 +27,12 @@ const Cards: FC = () => {
 
 
     const scrollRef = useRef(null)                        //needed to resolve the conflict with reanimated and ScrollView
+    console.log('isLoading1', isLoading);
 
-    if (isLoading) return <IsLoading />
+    if (isLoading) return <IsLoading /> 
 
     // return <IsLoading />
-
+    console.log('isLoading2', isLoading);
     return (
         <ScrollView ref={scrollRef} style={styles.cardsWrap}>
 
