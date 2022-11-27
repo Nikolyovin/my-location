@@ -1,4 +1,4 @@
-import { Alert, AsyncStorage, Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, AsyncStorage, Dimensions, Keyboard, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { FC, useEffect, useState } from 'react';
 import { useActions } from '../hooks/action';
 import { useAppSelector } from '../hooks/redux';
@@ -10,6 +10,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 const Footer: FC = () => {
     const { iShowModal, setLocations, isShowLoading, isShowNotification, isShowNotificationError, setSendError } = useActions()
     const { locations, isLoading } = useAppSelector(state => state.app)
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
     const onShowModal: () => void = () => {
         iShowModal(true)
@@ -26,6 +27,12 @@ const Footer: FC = () => {
     }
 
     const sendEmail: () => void = () => {
+        if (!locations.length) {
+            return Alert.alert(
+                "Ошибка отправки!",
+                `Вы не можете отправить пустое сообщение!`)
+        }
+
         isShowLoading(true)
         emailjs.send(
             REACT_APP_SERVICE_ID,
@@ -63,6 +70,29 @@ const Footer: FC = () => {
             ],
         )
     }
+
+    //for hidden footer
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => {
+                setKeyboardVisible(true); // or some other action
+            }
+        );
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setKeyboardVisible(false); // or some other action
+            }
+        );
+
+        return () => {
+            keyboardDidHideListener.remove();
+            keyboardDidShowListener.remove();
+        };
+    }, []);
+
+    if (isKeyboardVisible) return <></>
 
     return (
         <View style={styles.container}>
