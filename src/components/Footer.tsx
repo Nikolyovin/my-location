@@ -11,27 +11,15 @@ const Footer: FC = () => {
     const { iShowModal, setLocations, isShowLoading, isShowNotification, isShowNotificationError, setSendError } = useActions()
     const { locations, isLoading } = useAppSelector(state => state.app)
 
-    // const remove = async () => {
-    //     try {
-    //         await AsyncStorage.setItem('locations', JSON.stringify(locations))
-    //     } catch (err: any) {
-    //         Alert.alert(err.message)
-    //         console.log('err.message', err.message)
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     remove()
-    // }, [locations])
-
     const onShowModal: () => void = () => {
         iShowModal(true)
     }
 
-    const removeAll: () => void = () => {
-        setLocations([])
-    }
+    // const removeAll: () => void = () => {
+    //     setLocations([])
+    // }
 
+    //for send email
     const templateParams = {
         body: locations?.map(item => `Широта: ${item.coordinates[0]}, Долгота: ${item.coordinates[1]};  Описание: ${item.description};\n`).join(''),
         user_email: 'pulya0763@gmail.com',
@@ -56,7 +44,25 @@ const Footer: FC = () => {
         )
     }
 
-
+    //for confirm
+    const onRemoveAll: () => void = () => {
+        Alert.alert(
+            "Удалить всё?",
+            `Вы действительно хотите удалить всё? `,
+            [
+                {
+                    text: "Отменить",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: 'cancel',
+                },
+                {
+                    text: "Да",
+                    onPress: () => setLocations([]),
+                    style: 'default',
+                },
+            ],
+        )
+    }
 
     return (
         <View style={styles.container}>
@@ -73,7 +79,7 @@ const Footer: FC = () => {
                     />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.button} onPress={removeAll}>
+            <TouchableOpacity style={styles.button} onPress={onRemoveAll}>
                 <Text style={styles.buttonAddText}>Удалить всё</Text>
             </TouchableOpacity>
         </View>

@@ -1,4 +1,4 @@
-import { AsyncStorage, StyleSheet, Text, View } from 'react-native'
+import { AsyncStorage, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { FC, useRef, useEffect } from 'react'
 import Card from './Card'
 import { useAppSelector } from '../hooks/redux'
@@ -33,7 +33,9 @@ const Cards: FC = () => {
     console.log('isLoading2', isLoading);
     return (
         <ScrollView ref={scrollRef} style={styles.cardsWrap}>
-
+            {/* <TouchableOpacity style={styles.buttonCancel}>
+                <Text style={styles.text}>Отменить</Text>
+            </TouchableOpacity> */}
             {locations?.map(item => (
                 <Card
                     key={item.id}
@@ -51,6 +53,12 @@ const Cards: FC = () => {
 export default Cards
 
 const styles = StyleSheet.create({
+    // buttonCancel: {
+
+    // },
+    // text: {
+    //     color: '#00c68f',
+    // },
     cardsWrap: {
         flex: 1,
         paddingTop: 15,

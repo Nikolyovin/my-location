@@ -11,16 +11,17 @@ interface IAppState {
     isNotificationError: boolean
     isLoading: boolean
     emailError: string
+    isEditMode: boolean
 }
 
 const initialState: IAppState = {
-    // locations:  JSON.parse(AsyncStorage.getItem(keyAsyncStorage) ?? '[]') ,
     locations: [],
     iSModal: false,
     isNotification: false,
     isNotificationError: false,
     isLoading: false,
-    emailError: ''
+    emailError: '',
+    isEditMode: false,
 }
 
 export const appSlice = createSlice({
@@ -50,7 +51,10 @@ export const appSlice = createSlice({
         },
         setSendError(state, action: PayloadAction<string>) {
             state.emailError = action.payload
+        }, isShowEditMode(state, action: PayloadAction<boolean>) {
+            state.isEditMode = action.payload
         }
+
     }
 })
 

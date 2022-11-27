@@ -2,6 +2,7 @@ import { AsyncStorage, StyleSheet, Text, TouchableOpacity, View } from 'react-na
 import React, { FC, useEffect } from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useActions } from '../hooks/action'
+import { useAppSelector } from '../hooks/redux'
 
 interface IProps {
     coordinates: number[]
@@ -10,30 +11,36 @@ interface IProps {
 }
 
 const Card: FC<IProps> = ({ coordinates, description, id }) => {
-    const { removeLocation } = useActions()
-    // const { locations } = useAppSelector(state => state.app)
+    const { removeLocation, isShowEditMode } = useActions()
+    const { isEditMode } = useAppSelector(state => state.app)
     const onRemove: () => void = () => {
         removeLocation(id)
     }
 
+    const onLongPress: () => void = () => {
+        isShowEditMode(true)
+    }
+
     return (
         <View style={styles.cardContainer}>
-            <View style={styles.cardWrap}>
+            <TouchableOpacity style={styles.cardWrap} onLongPress={onLongPress}>
                 <View style={styles.rightWrap}>
                     <Text style={styles.coordinates}>Широта: {coordinates[0]}</Text>
                     <Text style={styles.coordinates}>Долгота: {coordinates[1]}</Text>
                 </View>
                 <Text style={styles.description}>{description}</Text>
-            </View>
-            <View style={styles.iconWrap}>
-                <TouchableOpacity onPress={onRemove}>
-                    <FontAwesome5
-                        name={'trash-alt'}
-                        size={25}
-                        color={'red'}
-                    />
-                </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
+            {isEditMode &&
+                <View style={styles.iconWrap}>
+                    <TouchableOpacity onPress={onRemove}>
+                        <FontAwesome5
+                            name={'trash-alt'}
+                            size={25}
+                            color={'red'}
+                        />
+                    </TouchableOpacity>
+                </View>
+            }
         </View>
     )
 }
@@ -76,6 +83,9 @@ const styles = StyleSheet.create({
     iconWrap: {
         position: 'absolute',
         right: 10,
-        top: 10,
+        top: -5,
+        height: '100%',
+        // alignItems: 'center',
+        justifyContent: 'center',
     }
 })
