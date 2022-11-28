@@ -39,7 +39,9 @@ const ModalAdd: FC = () => {
         return
       }
 
-      let location = await Location.getCurrentPositionAsync({});
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Highest,
+      });
       const coordinates = [location.coords.latitude, location.coords.longitude]
       setСoordinates(coordinates)
       setIsLoading(false)
