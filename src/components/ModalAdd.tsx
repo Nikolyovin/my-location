@@ -61,6 +61,7 @@ const ModalAdd: FC = () => {
     onChangeDescription('')
     setIsEmptyFields(false)
     setSendError('')
+    setIsLoading(false)
   }
 
   const onPressAdd = () => {
