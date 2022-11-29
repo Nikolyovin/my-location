@@ -1,16 +1,17 @@
 import { Alert, AsyncStorage, Dimensions, Keyboard, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { FC, useEffect, useState } from 'react';
-import { useActions } from '../hooks/action';
-import { useAppSelector } from '../hooks/redux';
-import { REACT_APP_SERVICE_ID, REACT_APP_TEMPLATE_ID, REACT_APP_USER_ID } from "@env"
-import emailjs from "emailjs-com"
-import { ILokations } from '../models/models';
+import React, { FC, useEffect, useState } from 'react'
+import { useActions } from '../hooks/action'
+import { useAppSelector } from '../hooks/redux'
+import { REACT_APP_SERVICE_ID, REACT_APP_TEMPLATE_ID, REACT_APP_USER_ID } from '@env'
+import emailjs from 'emailjs-com'
+import { ILokations } from '../models/models'
 import { FontAwesome5 } from '@expo/vector-icons'
 
 const Footer: FC = () => {
-    const { iShowModal, setLocations, isShowLoading, isShowNotification, isShowNotificationError, setSendError } = useActions()
+    const { iShowModal, setLocations, isShowLoading, isShowNotification, isShowNotificationError, setSendError } =
+        useActions()
     const { locations, isLoading } = useAppSelector(state => state.app)
-    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false)
 
     const onShowModal: () => void = () => {
         iShowModal(true)
@@ -22,75 +23,65 @@ const Footer: FC = () => {
 
     //for send email
     const templateParams = {
-        body: locations?.map(item => `Широта: ${item.coordinates[0]}, Долгота: ${item.coordinates[1]};  Описание: ${item.description};\n`).join(''),
-        user_email: 'pulya0763@gmail.com',
+        body: locations
+            ?.map(
+                item =>
+                    `Широта: ${item.coordinates[0]}, Долгота: ${item.coordinates[1]};  Описание: ${item.description};\n`
+            )
+            .join(''),
+        user_email: 'pulya0763@gmail.com'
     }
 
     const sendEmail: () => void = () => {
         if (!locations.length) {
-            return Alert.alert(
-                "Ошибка отправки!",
-                `Вы не можете отправить пустое сообщение!`)
+            return Alert.alert('Ошибка отправки!', `Вы не можете отправить пустое сообщение!`)
         }
 
         isShowLoading(true)
-        emailjs.send(
-            REACT_APP_SERVICE_ID,
-            REACT_APP_TEMPLATE_ID,
-            templateParams,
-            REACT_APP_USER_ID,
-        ).then(
-            result => { if (result.status === 200) isShowLoading(false) && isShowNotification(true) },
+        emailjs.send(REACT_APP_SERVICE_ID, REACT_APP_TEMPLATE_ID, templateParams, REACT_APP_USER_ID).then(
+            result => {
+                if (result.status === 200) isShowLoading(false) && isShowNotification(true)
+            },
             error => {
                 console.log(error)
                 setSendError(error.text)
                 isShowLoading(false)
                 isShowNotificationError(true)
                 isShowNotification(true)
-            },
+            }
         )
     }
 
     //for confirm
     const onRemoveAll: () => void = () => {
-        Alert.alert(
-            "Удалить всё?",
-            `Вы действительно хотите удалить всё? `,
-            [
-                {
-                    text: "Отменить",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: 'cancel',
-                },
-                {
-                    text: "Да",
-                    onPress: () => setLocations([]),
-                    style: 'default',
-                },
-            ],
-        )
+        Alert.alert('Удалить всё?', `Вы действительно хотите удалить всё? `, [
+            {
+                text: 'Отменить',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel'
+            },
+            {
+                text: 'Да',
+                onPress: () => setLocations([]),
+                style: 'default'
+            }
+        ])
     }
 
     //for hidden footer
     useEffect(() => {
-        const keyboardDidShowListener = Keyboard.addListener(
-            'keyboardDidShow',
-            () => {
-                setKeyboardVisible(true); // or some other action
-            }
-        );
-        const keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            () => {
-                setKeyboardVisible(false); // or some other action
-            }
-        );
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+            setKeyboardVisible(true) // or some other action
+        })
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardVisible(false) // or some other action
+        })
 
         return () => {
-            keyboardDidHideListener.remove();
-            keyboardDidShowListener.remove();
-        };
-    }, []);
+            keyboardDidHideListener.remove()
+            keyboardDidShowListener.remove()
+        }
+    }, [])
 
     if (isKeyboardVisible) return <></>
 
@@ -101,12 +92,7 @@ const Footer: FC = () => {
             </TouchableOpacity>
             <View style={styles.buttonAddWrap}>
                 <TouchableOpacity style={styles.buttonAdd} onPress={onShowModal}>
-
-                    <FontAwesome5
-                        name={'plus'}
-                        size={40}
-                        color={'white'}
-                    />
+                    <FontAwesome5 name={'plus'} size={40} color={'white'} />
                 </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.button} onPress={onRemoveAll}>
@@ -118,7 +104,7 @@ const Footer: FC = () => {
 
 export default Footer
 
-const screenWidth = Dimensions.get('window').width / 2;
+const screenWidth = Dimensions.get('window').width / 2
 
 const styles = StyleSheet.create({
     container: {
@@ -128,7 +114,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 25,
         width: '100%',
         height: 100,
-        backgroundColor: '#efefef'
+        backgroundColor: '#efefef',
+        marginTop: 20
     },
     button: {
         backgroundColor: '#00c68f',
@@ -160,9 +147,9 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     buttonAddText: {
-        color: 'white',
+        color: 'white'
     }
 })
