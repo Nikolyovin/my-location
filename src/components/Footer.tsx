@@ -29,7 +29,7 @@ const Footer: FC = () => {
                     `Широта: ${item.coordinates[0]}, Долгота: ${item.coordinates[1]};  Описание: ${item.description};\n`
             )
             .join(''),
-        user_email: 'pulya0763@gmail.com'
+        user_email: 'av.zhulev@gmail.com'
     }
 
     const sendEmail: () => void = () => {
