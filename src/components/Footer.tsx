@@ -26,7 +26,7 @@ const Footer: FC = () => {
         body: locations
             ?.map(
                 item =>
-                    `Широта: ${item.coordinates[0]}, Долгота: ${item.coordinates[1]};  Описание: ${item.description};\n`
+                    `Широта, Долгота - ${item.coordinates[0]} ${item.coordinates[1]}; Описание: ${item.description};\n`
             )
             .join(''),
         user_email: 'av.zhulev@gmail.com'
